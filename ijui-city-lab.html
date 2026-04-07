@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ijuí City Lab — Laboratório Urbano de Inovação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #05080f;
+    --surface:  #0a1020;
+    --surface2: #0f1a30;
+    --border:   #1a2d4a;
+    --accent:   #e8f400;   /* amarelo elétrico — cor forte de marca */
+    --blue:     #2563eb;
+    --blue-soft:#3b82f6;
+    --text:     #dde8f0;
+    --muted:    #607a90;
+    --white:    #ffffff;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body:    'Space Grotesk', sans-serif;
+    --font-mono:    'DM Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* TEXTURA DE FUNDO */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(232,244,0,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,244,0,0.025) 1px, transparent 1px);
+    background-size: 56px 56px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ──────────────────── NAV ──────────────────── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 52px;
+    height: 66px;
+    background: rgba(5,8,15,0.88);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+  }
+
+  /* Logo mark — ICL em bloco */
+  .logo-mark {
+    width: 36px;
+    height: 36px;
+    background: var(--accent);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 17px;
+    color: var(--bg);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+
+  .logo-name {
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: 0.18em;
+    color: var(--white);
+    line-height: 1;
+    display: block;
+  }
+
+  .logo-sub {
+    font-family: var(--font-display);
+    font-size: 10.5px;
+    color: var(--accent);
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 2px;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-right { display: flex; gap: 12px; align-items: center; }
+
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: var(--font-body);
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  .btn-solid {
+    background: var(--accent);
+    border: none;
+    color: var(--bg);
+    padding: 9px 22px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: var(--font-body);
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+
+  .btn-solid:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  /* ──────────────────── HERO ──────────────────── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 0 52px;
+    gap: 40px;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,244,0,0.06) 0%, transparent 65%);
+    top: 50%;
+    left: -10%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero-left {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(72px, 9vw, 130px);
+    line-height: 0.92;
+    letter-spacing: 0.02em;
+    color: var(--white);
+    margin-bottom: 28px;
+    animation: fadeUp 0.5s ease 0.1s both;
+  }
+
+  .hero-title .line-accent {
+    color: var(--accent);
+    display: block;
+  }
+
+  .hero-title .line-outline {
+    -webkit-text-stroke: 1px rgba(255,255,255,0.25);
+    color: transparent;
+    display: block;
+  }
+
+  .hero-desc {
+    font-size: 16px;
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 440px;
+    line-height: 1.75;
+    margin-bottom: 40px;
+    animation: fadeUp 0.5s ease 0.2s both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 14px;
+    animation: fadeUp 0.5s ease 0.3s both;
+  }
+
+  .btn-hero {
+    padding: 14px 32px;
+    font-size: 14px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 64px;
+    padding-top: 36px;
+    border-top: 1px solid var(--border);
+    animation: fadeUp 0.5s ease 0.4s both;
+  }
+
+  .stat-val {
+    font-family: var(--font-display);
+    font-size: 42px;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .stat-val em { color: var(--accent); font-style: normal; }
+
+  .stat-lbl {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+  }
+
+  /* Hero right — visual */
+  .hero-right {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .hero-visual {
+    position: relative;
+    width: 460px;
+    height: 460px;
+  }
+
+  /* Círculos concêntricos pulsantes */
+  .ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(232,244,0,0.12);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .ring-1 { width: 120px; height: 120px; border-color: rgba(232,244,0,0.4); animation: expand 4s ease-in-out infinite; }
+  .ring-2 { width: 220px; height: 220px; animation: expand 4s ease-in-out 0.5s infinite; }
+  .ring-3 { width: 320px; height: 320px; animation: expand 4s ease-in-out 1s infinite; }
+  .ring-4 { width: 420px; height: 420px; animation: expand 4s ease-in-out 1.5s infinite; }
+
+  @keyframes expand {
+    0%, 100% { opacity: 0.5; transform: translate(-50%,-50%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%,-50%) scale(1.04); }
+  }
+
+  .hero-center-dot {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48px;
+    height: 48px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--bg);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    z-index: 2;
+    box-shadow: 0 0 40px rgba(232,244,0,0.4);
+  }
+
+  /* Pontos orbitando */
+  .orbit-point {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    top: 50%; left: 50%;
+    transform-origin: 0 0;
+  }
+
+  .orbit-point::after {
+    content: attr(data-label);
+    position: absolute;
+    left: 16px;
+    top: -4px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--muted);
+    white-space: nowrap;
+    letter-spacing: 0.06em;
+  }
+
+  .op-1 { background: var(--accent); transform: translate(-50%,-50%) rotate(0deg) translateX(110px); }
+  .op-2 { background: var(--blue-soft); transform: translate(-50%,-50%) rotate(72deg) translateX(110px); }
+  .op-3 { background: #ff6b6b; transform: translate(-50%,-50%) rotate(144deg) translateX(110px); }
+  .op-4 { background: #a78bfa; transform: translate(-50%,-50%) rotate(216deg) translateX(110px); }
+  .op-5 { background: #34d399; transform: translate(-50%,-50%) rotate(288deg) translateX(110px); }
+
+  /* Linha de conexão */
+  .hero-visual svg.connections {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* Floating cards no hero */
+  .hero-card {
+    position: absolute;
+    background: rgba(10,16,32,0.9);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    backdrop-filter: blur(8px);
+    z-index: 3;
+  }
+
+  .hc-1 { top: 60px; right: -20px; }
+  .hc-2 { bottom: 80px; left: -30px; }
+
+  .hc-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+
+  .hc-value {
+    font-family: var(--font-display);
+    font-size: 26px;
+    letter-spacing: 0.06em;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .hc-value em { color: var(--accent); font-style: normal; }
+
+  .hc-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ──────────────────── SEÇÕES ──────────────────── */
+  section { position: relative; z-index: 1; }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 52px;
+  }
+
+  .sec-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sec-tag::before { content: '//'; opacity: 0.5; }
+
+  .sec-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 4vw, 60px);
+    letter-spacing: 0.04em;
+    color: var(--white);
+    line-height: 1.05;
+  }
+
+  .sec-desc {
+    font-size: 15px;
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 500px;
+    line-height: 1.75;
+    margin-top: 12px;
+  }
+
+  /* ──────────────────── SOBRE ──────────────────── */
+  .about { padding: 120px 0; }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .about-text .sec-title { margin-bottom: 20px; }
+
+  .about-text p {
+    font-size: 15px;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 14px;
+  }
+
+  .pillars {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pillar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .pillar:hover {
+    border-color: rgba(232,244,0,0.3);
+    background: var(--surface2);
+  }
+
+  .pillar-num {
+    font-family: var(--font-display);
+    font-size: 22px;
+    color: var(--accent);
+    opacity: 0.5;
+    width: 28px;
+    flex-shrink: 0;
+  }
+
+  .pillar-body strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.02em;
+  }
+
+  .pillar-body span {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* About visual */
+  .about-visual {
+    position: relative;
+  }
+
+  .about-terminal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .terminal-bar {
+    background: var(--surface2);
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dr { background: #ff5f57; }
+  .dy { background: #febc2e; }
+  .dg { background: #28c840; }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    margin-left: 10px;
+  }
+
+  .terminal-body {
+    padding: 24px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 2;
+  }
+
+  .t-comment { color: #3a5270; }
+  .t-key { color: var(--blue-soft); }
+  .t-val { color: #a5f3fc; }
+  .t-str { color: #86efac; }
+  .t-accent { color: var(--accent); }
+  .t-num { color: #fca5a5; }
+  .t-muted { color: var(--muted); }
+
+  .about-badge {
+    position: absolute;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+  }
+
+  .ab-1 {
+    top: -20px;
+    right: -24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ab-icon {
+    width: 34px;
+    height: 34px;
+    background: rgba(232,244,0,0.1);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  .ab-text strong { display: block; font-size: 13px; color: var(--white); }
+  .ab-text span { font-size: 11px; color: var(--muted); }
+
+  .ab-2 {
+    bottom: 20px;
+    left: -28px;
+  }
+
+  .ab-2 .ab-big {
+    font-family: var(--font-display);
+    font-size: 32px;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+    line-height: 1;
+  }
+
+  .ab-2 span { font-size: 11px; color: var(--muted); display: block; margin-top: 2px; }
+
+  /* ──────────────────── COMO FUNCIONA ──────────────────── */
+  .how { padding: 100px 0; }
+
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 56px;
+  }
+
+  .how-step {
+    background: var(--surface);
+    padding: 36px 28px;
+    transition: background 0.2s;
+    position: relative;
+  }
+
+  .how-step:hover { background: var(--surface2); }
+
+  .step-n {
+    font-family: var(--font-display);
+    font-size: 56px;
+    color: rgba(232,244,0,0.12);
+    line-height: 1;
+    margin-bottom: 20px;
+    letter-spacing: 0.02em;
+  }
+
+  .how-step h4 {
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 8px;
+    letter-spacing: 0.01em;
+  }
+
+  .how-step p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .step-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  /* ──────────────────── PROJETOS ──────────────────── */
+  .projects { padding: 100px 0; }
+
+  .projects-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 48px;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px;
+    cursor: pointer;
+    transition: border-color 0.25s, transform 0.2s, background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  .project-card:hover {
+    border-color: rgba(232,244,0,0.2);
+    background: var(--surface2);
+    transform: translateY(-3px);
+  }
+
+  .project-card:hover::after { transform: scaleX(1); }
+
+  .proj-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 3px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .ps-active { background: rgba(52,211,153,0.1); color: #34d399; }
+  .ps-review { background: rgba(251,191,36,0.1); color: #fbbf24; }
+  .ps-planned { background: rgba(99,102,241,0.1); color: #818cf8; }
+
+  .ps-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+  .project-card h3 {
+    font-family: var(--font-body);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .project-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+
+  .proj-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .pm-item {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* ──────────────────── ECOSSISTEMA ──────────────────── */
+  .ecosystem { padding: 100px 0; }
+
+  .eco-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 48px;
+  }
+
+  .eco-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .eco-card:hover {
+    border-color: rgba(232,244,0,0.2);
+    background: var(--surface2);
+  }
+
+  .eco-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border: 1px solid var(--border);
+  }
+
+  .eco-card h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.3;
+  }
+
+  .eco-card span {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .eco-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    background: rgba(37,99,235,0.15);
+    color: var(--blue-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    align-self: flex-start;
+  }
+
+  /* ──────────────────── CTA ──────────────────── */
+  .cta-block {
+    margin: 80px 0;
+    padding: 72px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-block::before {
+    content: 'ICL';
+    position: absolute;
+    right: 280px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-display);
+    font-size: 200px;
+    color: rgba(232,244,0,0.03);
+    letter-spacing: 0.02em;
+    pointer-events: none;
+    line-height: 1;
+  }
+
+  .cta-block h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3vw, 48px);
+    letter-spacing: 0.04em;
+    color: var(--white);
+    margin-bottom: 10px;
+    line-height: 1.05;
+  }
+
+  .cta-block p {
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.75;
+  }
+
+  .cta-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  /* ──────────────────── FOOTER ──────────────────── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 36px 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-left { display: flex; align-items: center; gap: 28px; }
+
+  .footer-partners { display: flex; gap: 8px; }
+
+  .fpartner {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .footer-right {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.8;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .footer-right a { color: var(--muted); text-decoration: none; }
+  .footer-right a:hover { color: var(--accent); }
+
+  /* ──────────────────── REVEAL ──────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ──────────────────── SCROLLBAR ──────────────────── */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-mark">ICL</div>
+    <div class="logo-text">
+      <span class="logo-name">IJUÍ</span>
+      <span class="logo-sub"><span>CITY</span><span>LAB</span></span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#como-funciona">Como funciona</a></li>
+    <li><a href="#projetos">Projetos</a></li>
+    <li><a href="#ecossistema">Ecossistema</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="#login" class="btn-outline">Entrar</a>
+    <a href="#participar" class="btn-solid">Participar</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+
+  <div class="hero-left">
+    <div class="hero-eyebrow">Sandbox Regulatório Ativo · Bairro São Geraldo</div>
+    <h1 class="hero-title">
+      IJUÍ
+      <span class="line-accent">CITY</span>
+      <span class="line-outline">LAB</span>
+    </h1>
+    <p class="hero-desc">
+      O laboratório vivo da cidade. Um ambiente regulatório experimental
+      onde empresas, UNIJUÍ e Prefeitura de Ijuí co-criam o futuro urbano
+      do bairro São Geraldo.
+    </p>
+    <div class="hero-actions">
+      <a href="#projetos" class="btn-solid btn-hero">Ver projetos</a>
+      <a href="#como-funciona" class="btn-outline btn-hero">Como funciona</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-val">12<em>+</em></div>
+        <div class="stat-lbl">Projetos ativos</div>
+      </div>
+      <div>
+        <div class="stat-val">8</div>
+        <div class="stat-lbl">Empresas parceiras</div>
+      </div>
+      <div>
+        <div class="stat-val">1<em>km²</em></div>
+        <div class="stat-lbl">Área do sandbox</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-visual">
+      <div class="ring ring-1"></div>
+      <div class="ring ring-2"></div>
+      <div class="ring ring-3"></div>
+      <div class="ring ring-4"></div>
+      <div class="hero-center-dot">ICL</div>
+      <div class="orbit-point op-1" data-label="MOBILIDADE"></div>
+      <div class="orbit-point op-2" data-label="ENERGIA"></div>
+      <div class="orbit-point op-3" data-label="SAÚDE"></div>
+      <div class="orbit-point op-4" data-label="SEGURANÇA"></div>
+      <div class="orbit-point op-5" data-label="DADOS"></div>
+
+      <div class="hero-card hc-1">
+        <div class="hc-label">Status</div>
+        <div class="hc-value"><em>●</em> ATIVO</div>
+        <div class="hc-sub">São Geraldo · Ijuí/RS</div>
+      </div>
+
+      <div class="hero-card hc-2">
+        <div class="hc-label">Projetos em andamento</div>
+        <div class="hc-value">12<em>+</em></div>
+        <div class="hc-sub">Atualizado hoje</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SOBRE -->
+<section class="about" id="sobre">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <div class="sec-tag">Sobre o projeto</div>
+        <h2 class="sec-title">O laboratório<br>vivo da cidade</h2>
+        <p>O Ijuí City Lab é um sandbox regulatório criado pela Prefeitura de Ijuí em parceria com a UNIJUÍ para transformar o bairro São Geraldo num ambiente real de experimentação urbana.</p>
+        <p>Empresas e startups podem propor, testar e escalar soluções de cidade inteligente com respaldo jurídico, acesso a dados públicos e suporte técnico da universidade.</p>
+        <div class="pillars">
+          <div class="pillar">
+            <div class="pillar-num">01</div>
+            <div class="pillar-body">
+              <strong>Experimentação regulada</strong>
+              <span>Framework jurídico simplificado para testar inovações urbanas</span>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num">02</div>
+            <div class="pillar-body">
+              <strong>Triple Helix</strong>
+              <span>Governo, academia e empresa atuando de forma integrada</span>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num">03</div>
+            <div class="pillar-body">
+              <strong>Dados abertos do bairro</strong>
+              <span>Acesso a dados urbanos reais para desenvolvimento e pesquisa</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-visual reveal">
+        <div class="about-terminal">
+          <div class="terminal-bar">
+            <div class="dot dr"></div>
+            <div class="dot dy"></div>
+            <div class="dot dg"></div>
+            <span class="terminal-title">icl-config.json</span>
+          </div>
+          <div class="terminal-body">
+            <div class="t-comment">// Ijuí City Lab — Configuração do Sandbox</div>
+            <div>&nbsp;</div>
+            <div><span class="t-muted">{</span></div>
+            <div>&nbsp;&nbsp;<span class="t-key">"projeto"</span>: <span class="t-str">"Ijuí City Lab"</span><span class="t-muted">,</span></div>
+            <div>&nbsp;&nbsp;<span class="t-key">"bairro"</span>: <span class="t-str">"São Geraldo"</span><span class="t-muted">,</span></div>
+            <div>&nbsp;&nbsp;<span class="t-key">"cidade"</span>: <span class="t-str">"Ijuí/RS"</span><span class="t-muted">,</span></div>
+            <div>&nbsp;&nbsp;<span class="t-key">"parceiros"</span>: <span class="t-muted">[</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"Prefeitura de Ijuí"</span><span class="t-muted">,</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"UNIJUÍ"</span></div>
+            <div>&nbsp;&nbsp;<span class="t-muted">],</span></div>
+            <div>&nbsp;&nbsp;<span class="t-key">"area_km2"</span>: <span class="t-num">1.0</span><span class="t-muted">,</span></div>
+            <div>&nbsp;&nbsp;<span class="t-key">"status"</span>: <span class="t-accent">"ATIVO"</span><span class="t-muted">,</span></div>
+            <div>&nbsp;&nbsp;<span class="t-key">"projetos"</span>: <span class="t-num">12</span><span class="t-muted">,</span></div>
+            <div>&nbsp;&nbsp;<span class="t-key">"empresas"</span>: <span class="t-num">8</span></div>
+            <div><span class="t-muted">}</span></div>
+          </div>
+        </div>
+        <div class="about-badge ab-1">
+          <div class="ab-icon">🏛️</div>
+          <div class="ab-text">
+            <strong>Prefeitura de Ijuí</strong>
+            <span>Parceiro regulatório</span>
+          </div>
+        </div>
+        <div class="about-badge ab-2">
+          <div class="ab-big">2024</div>
+          <span>Ano de fundação</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="how" id="como-funciona">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-tag">Processo</div>
+      <h2 class="sec-title">Como participar</h2>
+      <p class="sec-desc">Processo simplificado para empresas que queiram testar soluções no bairro São Geraldo.</p>
+    </div>
+    <div class="how-grid reveal">
+      <div class="how-step">
+        <div class="step-n">01</div>
+        <span class="step-tag">Cadastro</span>
+        <h4>Cadastro da empresa</h4>
+        <p>Crie sua conta na plataforma e envie o perfil da empresa para análise inicial.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-n">02</div>
+        <span class="step-tag">Proposta</span>
+        <h4>Submissão do projeto</h4>
+        <p>Descreva sua solução, área de atuação e os impactos esperados para o bairro.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-n">03</div>
+        <span class="step-tag">Aprovação</span>
+        <h4>Avaliação técnica</h4>
+        <p>Comitê da UNIJUÍ e prefeitura analisa e aprova a proposta em até 30 dias.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-n">04</div>
+        <span class="step-tag">Operação</span>
+        <h4>Implantação no Lab</h4>
+        <p>Opere sua solução com acesso à infraestrutura, dados e suporte técnico do Lab.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJETOS -->
+<section class="projects" id="projetos">
+  <div class="container">
+    <div class="projects-header reveal">
+      <div>
+        <div class="sec-tag">Projetos em andamento</div>
+        <h2 class="sec-title">O que está sendo testado</h2>
+      </div>
+      <a href="#todos" class="btn-outline">Ver todos →</a>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <div class="proj-status ps-active"><div class="ps-dot"></div>Em operação</div>
+        <h3>Monitoramento de Tráfego com IA</h3>
+        <p>Câmeras com visão computacional para contagem e classificação de veículos em tempo real nas vias do bairro São Geraldo.</p>
+        <div class="proj-meta">
+          <span class="pm-item">🏢 UNIJUÍ</span>
+          <span class="pm-item">📍 4 pontos</span>
+          <span class="pm-item">📅 Nov 2024</span>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="proj-status ps-review"><div class="ps-dot"></div>Em análise</div>
+        <h3>Iluminação Pública Inteligente</h3>
+        <p>Sensores de presença e controle adaptativo para redução de consumo energético na iluminação das vias do bairro.</p>
+        <div class="proj-meta">
+          <span class="pm-item">🏢 Empresa A</span>
+          <span class="pm-item">📍 12 pontos</span>
+          <span class="pm-item">📅 Jan 2025</span>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="proj-status ps-planned"><div class="ps-dot"></div>Planejado</div>
+        <h3>Qualidade do Ar e Ruído</h3>
+        <p>Rede de sensores IoT para monitoramento contínuo da qualidade do ar e níveis de ruído no bairro em tempo real.</p>
+        <div class="proj-meta">
+          <span class="pm-item">🏢 A definir</span>
+          <span class="pm-item">📍 Área geral</span>
+          <span class="pm-item">📅 Mar 2025</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ECOSSISTEMA -->
+<section class="ecosystem" id="ecossistema">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-tag">Ecossistema</div>
+      <h2 class="sec-title">Quem faz parte do Lab</h2>
+    </div>
+    <div class="eco-grid reveal">
+      <div class="eco-card">
+        <div class="eco-icon">🏛️</div>
+        <h4>Prefeitura de Ijuí</h4>
+        <span>Gestão regulatória e licenciamento do sandbox</span>
+        <span class="eco-badge">GOVERNO</span>
+      </div>
+      <div class="eco-card">
+        <div class="eco-icon">🎓</div>
+        <h4>UNIJUÍ</h4>
+        <span>Suporte técnico, pesquisa e gestão do laboratório</span>
+        <span class="eco-badge">ACADEMIA</span>
+      </div>
+      <div class="eco-card">
+        <div class="eco-icon">📡</div>
+        <h4>Coprel Telecom</h4>
+        <span>Infraestrutura de rede e conectividade do bairro</span>
+        <span class="eco-badge">TELECOM</span>
+      </div>
+      <div class="eco-card">
+        <div class="eco-icon">🚀</div>
+        <h4>Sua empresa aqui</h4>
+        <span>Venha testar sua solução no Ijuí City Lab</span>
+        <span class="eco-badge">ABERTO</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section>
+  <div class="container">
+    <div class="cta-block reveal">
+      <div>
+        <div class="sec-tag">Participe</div>
+        <h2>SUA EMPRESA<br>NO CITY LAB</h2>
+        <p>Acesse um ambiente regulatório flexível, dados urbanos reais e suporte técnico da UNIJUÍ para desenvolver e testar sua solução no bairro São Geraldo.</p>
+      </div>
+      <div class="cta-btns">
+        <a href="#participar" class="btn-solid btn-hero">Quero participar</a>
+        <a href="#contato" class="btn-outline btn-hero">Falar com a equipe</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <div class="logo">
+      <div class="logo-mark">ICL</div>
+      <div class="logo-text">
+        <span class="logo-name">IJUÍ</span>
+        <span class="logo-sub"><span>CITY</span><span>LAB</span></span>
+      </div>
+    </div>
+    <div class="footer-partners">
+      <span class="fpartner">UNIJUÍ</span>
+      <span class="fpartner">Prefeitura de Ijuí</span>
+    </div>
+  </div>
+  <div class="footer-right">
+    <div>Bairro São Geraldo · Ijuí, RS · Brasil</div>
+    <div><a href="#">Privacidade</a> · <a href="#">Termos</a> · <a href="#">Contato</a></div>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 90);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
