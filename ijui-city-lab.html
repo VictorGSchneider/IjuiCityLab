@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Ijuí City Lab — Laboratório urbano de inovação. Sandbox regulatório no bairro São Geraldo para empresas testarem soluções de cidade inteligente.">
 <title>Ijuí City Lab — Laboratório Urbano de Inovação</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -12,7 +14,7 @@
     --surface:  #0a1020;
     --surface2: #0f1a30;
     --border:   #1a2d4a;
-    --accent:   #e8f400;   /* amarelo elétrico — cor forte de marca */
+    --accent:   #e8f400;
     --blue:     #2563eb;
     --blue-soft:#3b82f6;
     --text:     #dde8f0;
@@ -35,7 +37,6 @@
     overflow-x: hidden;
   }
 
-  /* TEXTURA DE FUNDO */
   body::before {
     content: '';
     position: fixed;
@@ -60,6 +61,7 @@
     height: 66px;
     background: rgba(5,8,15,0.88);
     backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--border);
   }
 
@@ -68,9 +70,9 @@
     align-items: center;
     gap: 14px;
     text-decoration: none;
+    flex-shrink: 0;
   }
 
-  /* Logo mark — ICL em bloco */
   .logo-mark {
     width: 36px;
     height: 36px;
@@ -134,6 +136,71 @@
 
   .nav-right { display: flex; gap: 12px; align-items: center; }
 
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 110;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--text);
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+  /* Mobile overlay */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(5,8,15,0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 99;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .mobile-menu.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobile-menu a {
+    font-family: var(--font-display);
+    font-size: 32px;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    transition: color 0.2s;
+  }
+
+  .mobile-menu a:hover { color: var(--accent); }
+
+  .mobile-menu .btn-solid {
+    margin-top: 16px;
+    padding: 14px 40px;
+    font-size: 16px;
+  }
+
+  /* ──────────────────── BUTTONS ──────────────────── */
   .btn-outline {
     background: transparent;
     border: 1px solid var(--border);
@@ -147,6 +214,9 @@
     text-decoration: none;
     transition: border-color 0.2s, color 0.2s;
     letter-spacing: 0.02em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
@@ -165,9 +235,20 @@
     letter-spacing: 0.04em;
     text-transform: uppercase;
     transition: opacity 0.2s, transform 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .btn-solid:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  .btn-hero {
+    padding: 14px 32px;
+    font-size: 14px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
 
   /* ──────────────────── HERO ──────────────────── */
   .hero {
@@ -221,7 +302,7 @@
 
   .hero-title {
     font-family: var(--font-display);
-    font-size: clamp(72px, 9vw, 130px);
+    font-size: clamp(64px, 9vw, 130px);
     line-height: 0.92;
     letter-spacing: 0.02em;
     color: var(--white);
@@ -253,15 +334,8 @@
   .hero-actions {
     display: flex;
     gap: 14px;
+    flex-wrap: wrap;
     animation: fadeUp 0.5s ease 0.3s both;
-  }
-
-  .btn-hero {
-    padding: 14px 32px;
-    font-size: 14px;
-    border-radius: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
   }
 
   .hero-stats {
@@ -292,7 +366,6 @@
     margin-top: 4px;
   }
 
-  /* Hero right — visual */
   .hero-right {
     position: relative;
     z-index: 1;
@@ -308,7 +381,6 @@
     height: 460px;
   }
 
-  /* Círculos concêntricos pulsantes */
   .ring {
     position: absolute;
     border-radius: 50%;
@@ -347,7 +419,6 @@
     box-shadow: 0 0 40px rgba(232,244,0,0.4);
   }
 
-  /* Pontos orbitando */
   .orbit-point {
     position: absolute;
     width: 10px;
@@ -376,17 +447,6 @@
   .op-4 { background: #a78bfa; transform: translate(-50%,-50%) rotate(216deg) translateX(110px); }
   .op-5 { background: #34d399; transform: translate(-50%,-50%) rotate(288deg) translateX(110px); }
 
-  /* Linha de conexão */
-  .hero-visual svg.connections {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  /* Floating cards no hero */
   .hero-card {
     position: absolute;
     background: rgba(10,16,32,0.9);
@@ -394,6 +454,7 @@
     border-radius: 10px;
     padding: 12px 16px;
     backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     z-index: 3;
   }
 
@@ -535,7 +596,6 @@
     color: var(--muted);
   }
 
-  /* About visual */
   .about-visual {
     position: relative;
   }
@@ -577,7 +637,6 @@
 
   .t-comment { color: #3a5270; }
   .t-key { color: var(--blue-soft); }
-  .t-val { color: #a5f3fc; }
   .t-str { color: #86efac; }
   .t-accent { color: var(--accent); }
   .t-num { color: #fca5a5; }
@@ -628,6 +687,57 @@
 
   .ab-2 span { font-size: 11px; color: var(--muted); display: block; margin-top: 2px; }
 
+  /* ──────────────────── BENEFÍCIOS ──────────────────── */
+  .benefits { padding: 100px 0; }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 48px;
+  }
+
+  .benefit-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 32px 28px;
+    transition: border-color 0.25s, background 0.2s, transform 0.2s;
+  }
+
+  .benefit-card:hover {
+    border-color: rgba(232,244,0,0.2);
+    background: var(--surface2);
+    transform: translateY(-3px);
+  }
+
+  .benefit-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(232,244,0,0.08);
+    border: 1px solid rgba(232,244,0,0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .benefit-card h4 {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+
+  .benefit-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
   /* ──────────────────── COMO FUNCIONA ──────────────────── */
   .how { padding: 100px 0; }
 
@@ -646,7 +756,6 @@
     background: var(--surface);
     padding: 36px 28px;
     transition: background 0.2s;
-    position: relative;
   }
 
   .how-step:hover { background: var(--surface2); }
@@ -657,7 +766,6 @@
     color: rgba(232,244,0,0.12);
     line-height: 1;
     margin-bottom: 20px;
-    letter-spacing: 0.02em;
   }
 
   .how-step h4 {
@@ -666,7 +774,6 @@
     font-weight: 600;
     color: var(--white);
     margin-bottom: 8px;
-    letter-spacing: 0.01em;
   }
 
   .how-step p {
@@ -693,6 +800,8 @@
     align-items: flex-end;
     justify-content: space-between;
     margin-bottom: 48px;
+    gap: 20px;
+    flex-wrap: wrap;
   }
 
   .projects-grid {
@@ -849,6 +958,179 @@
     align-self: flex-start;
   }
 
+  /* ──────────────────── FAQ ──────────────────── */
+  .faq { padding: 100px 0; }
+
+  .faq-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 48px;
+  }
+
+  .faq-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .faq-item:hover { border-color: rgba(232,244,0,0.2); }
+
+  .faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.4;
+  }
+
+  .faq-question::after {
+    content: '+';
+    font-family: var(--font-display);
+    font-size: 24px;
+    color: var(--accent);
+    flex-shrink: 0;
+    transition: transform 0.3s;
+    line-height: 1;
+  }
+
+  .faq-item.open .faq-question::after {
+    transform: rotate(45deg);
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+
+  .faq-answer-inner {
+    padding: 0 24px 20px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  /* ──────────────────── CONTATO ──────────────────── */
+  .contact { padding: 100px 0; }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-top: 48px;
+    align-items: start;
+  }
+
+  .contact-info { display: flex; flex-direction: column; gap: 24px; }
+
+  .contact-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .contact-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .contact-item strong {
+    display: block;
+    font-size: 14px;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .contact-item span {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .contact-form input,
+  .contact-form textarea,
+  .contact-form select {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 18px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--text);
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder {
+    color: var(--muted);
+  }
+
+  .contact-form input:focus,
+  .contact-form textarea:focus,
+  .contact-form select:focus {
+    border-color: var(--accent);
+  }
+
+  .contact-form textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .contact-form select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23607a90' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+    cursor: pointer;
+  }
+
+  .contact-form select option {
+    background: var(--surface);
+    color: var(--text);
+  }
+
+  .contact-form .btn-solid {
+    align-self: flex-start;
+    padding: 14px 36px;
+    font-size: 14px;
+  }
+
   /* ──────────────────── CTA ──────────────────── */
   .cta-block {
     margin: 80px 0;
@@ -904,15 +1186,72 @@
   /* ──────────────────── FOOTER ──────────────────── */
   footer {
     border-top: 1px solid var(--border);
-    padding: 36px 52px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-main {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 48px;
+    padding: 60px 52px 40px;
+    max-width: 1304px;
+    margin: 0 auto;
+  }
+
+  .footer-brand p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-top: 16px;
+    max-width: 280px;
+  }
+
+  .footer-col h5 {
+    font-family: var(--font-display);
+    font-size: 16px;
+    letter-spacing: 0.1em;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-col a {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-col a:hover { color: var(--accent); }
+
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding: 20px 52px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    max-width: 1304px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 12px;
   }
 
-  .footer-left { display: flex; align-items: center; gap: 28px; }
+  .footer-bottom span {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
 
-  .footer-partners { display: flex; gap: 8px; }
+  .footer-partners { display: flex; gap: 8px; flex-wrap: wrap; }
 
   .fpartner {
     font-family: var(--font-mono);
@@ -926,19 +1265,6 @@
     text-transform: uppercase;
   }
 
-  .footer-right {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--muted);
-    text-align: right;
-    line-height: 1.8;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-
-  .footer-right a { color: var(--muted); text-decoration: none; }
-  .footer-right a:hover { color: var(--accent); }
-
   /* ──────────────────── REVEAL ──────────────────── */
   .reveal {
     opacity: 0;
@@ -951,6 +1277,120 @@
   ::-webkit-scrollbar { width: 5px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ──────────────────── RESPONSIVE — TABLET ──────────────────── */
+  @media (max-width: 1024px) {
+    nav { padding: 0 28px; }
+    .container { padding: 0 28px; }
+    .hero { padding: 0 28px; gap: 24px; }
+
+    .nav-links { gap: 20px; }
+
+    .hero-visual { width: 340px; height: 340px; }
+    .ring-1 { width: 90px; height: 90px; }
+    .ring-2 { width: 160px; height: 160px; }
+    .ring-3 { width: 240px; height: 240px; }
+    .ring-4 { width: 310px; height: 310px; }
+
+    .about-grid { gap: 40px; }
+    .how-grid { grid-template-columns: repeat(2, 1fr); }
+    .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    .eco-grid { grid-template-columns: repeat(2, 1fr); }
+    .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .footer-main { grid-template-columns: 1fr 1fr; gap: 36px; padding: 48px 28px 32px; }
+    .footer-bottom { padding: 20px 28px; }
+
+    .cta-block { padding: 48px; }
+  }
+
+  /* ──────────────────── RESPONSIVE — MOBILE ──────────────────── */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .nav-right .btn-outline,
+    .nav-right .btn-solid { display: none; }
+    .hamburger { display: flex; }
+    .mobile-menu { display: flex; }
+
+    .container { padding: 0 20px; }
+
+    .hero {
+      grid-template-columns: 1fr;
+      padding: 100px 20px 60px;
+      min-height: auto;
+      gap: 0;
+    }
+
+    .hero-right {
+      height: auto;
+      padding: 40px 0;
+    }
+
+    .hero-visual { width: 280px; height: 280px; }
+    .ring-1 { width: 70px; height: 70px; }
+    .ring-2 { width: 130px; height: 130px; }
+    .ring-3 { width: 190px; height: 190px; }
+    .ring-4 { width: 250px; height: 250px; }
+
+    .hero-card { display: none; }
+
+    .hero-stats {
+      gap: 24px;
+      margin-top: 40px;
+      padding-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .stat-val { font-size: 32px; }
+
+    .about { padding: 80px 0; }
+    .about-grid { grid-template-columns: 1fr; gap: 48px; }
+    .about-badge { display: none; }
+
+    .benefits { padding: 80px 0; }
+    .benefits-grid { grid-template-columns: 1fr; margin-top: 36px; }
+
+    .how { padding: 80px 0; }
+    .how-grid { grid-template-columns: 1fr; margin-top: 36px; }
+
+    .projects { padding: 80px 0; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .projects-header { flex-direction: column; align-items: flex-start; }
+
+    .ecosystem { padding: 80px 0; }
+    .eco-grid { grid-template-columns: 1fr 1fr; margin-top: 36px; }
+
+    .faq { padding: 80px 0; }
+    .faq-grid { grid-template-columns: 1fr; margin-top: 36px; }
+
+    .contact { padding: 80px 0; }
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; margin-top: 36px; }
+    .form-row { grid-template-columns: 1fr; }
+
+    .cta-block {
+      grid-template-columns: 1fr;
+      padding: 36px 24px;
+      margin: 48px 0;
+      text-align: center;
+    }
+    .cta-btns { flex-direction: row; justify-content: center; flex-wrap: wrap; }
+    .cta-block::before { display: none; }
+
+    .footer-main { grid-template-columns: 1fr; gap: 32px; padding: 40px 20px 24px; }
+    .footer-bottom { padding: 16px 20px; flex-direction: column; text-align: center; }
+
+    .btn-hero { padding: 12px 24px; font-size: 13px; }
+  }
+
+  /* ──────────────────── RESPONSIVE — SMALL MOBILE ──────────────────── */
+  @media (max-width: 400px) {
+    .hero-title { font-size: 52px; }
+    .hero-visual { width: 220px; height: 220px; }
+    .ring-4 { width: 200px; height: 200px; }
+    .hero-stats { flex-direction: column; gap: 16px; }
+    .eco-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -966,15 +1406,34 @@
   </a>
   <ul class="nav-links">
     <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#beneficios">Benefícios</a></li>
     <li><a href="#como-funciona">Como funciona</a></li>
     <li><a href="#projetos">Projetos</a></li>
     <li><a href="#ecossistema">Ecossistema</a></li>
+    <li><a href="#contato">Contato</a></li>
   </ul>
   <div class="nav-right">
     <a href="#login" class="btn-outline">Entrar</a>
     <a href="#participar" class="btn-solid">Participar</a>
+    <button class="hamburger" aria-label="Abrir menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </div>
 </nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" role="dialog" aria-label="Menu de navegação">
+  <a href="#sobre">SOBRE</a>
+  <a href="#beneficios">BENEFÍCIOS</a>
+  <a href="#como-funciona">COMO FUNCIONA</a>
+  <a href="#projetos">PROJETOS</a>
+  <a href="#ecossistema">ECOSSISTEMA</a>
+  <a href="#faq">FAQ</a>
+  <a href="#contato">CONTATO</a>
+  <a href="#participar" class="btn-solid">PARTICIPAR</a>
+</div>
 
 <!-- HERO -->
 <div class="hero">
@@ -1116,6 +1575,49 @@
   </div>
 </section>
 
+<!-- BENEFÍCIOS -->
+<section class="benefits" id="beneficios">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-tag">Benefícios</div>
+      <h2 class="sec-title">Por que participar</h2>
+      <p class="sec-desc">Vantagens exclusivas para empresas que atuam dentro do sandbox regulatório do Ijuí City Lab.</p>
+    </div>
+    <div class="benefits-grid">
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">⚖️</div>
+        <h4>Flexibilidade regulatória</h4>
+        <p>Opere com regras simplificadas e acompanhamento jurídico dedicado para testar inovações sem burocracia excessiva.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">📊</div>
+        <h4>Acesso a dados reais</h4>
+        <p>Utilize dados urbanos reais do bairro São Geraldo — tráfego, consumo energético, clima e mais — para validar sua solução.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🎓</div>
+        <h4>Suporte acadêmico</h4>
+        <p>Conte com pesquisadores e alunos da UNIJUÍ para suporte técnico, pesquisa aplicada e validação científica.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🌐</div>
+        <h4>Infraestrutura conectada</h4>
+        <p>Rede de fibra óptica e conectividade fornecida pela Coprel Telecom com cobertura total no bairro.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🤝</div>
+        <h4>Rede de parceiros</h4>
+        <p>Conecte-se com outras empresas, governo e academia num ecossistema colaborativo de inovação urbana.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🚀</div>
+        <h4>Escala para a cidade</h4>
+        <p>Soluções validadas no Lab têm prioridade para expansão para outros bairros e cidades da região.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- COMO FUNCIONA -->
 <section class="how" id="como-funciona">
   <div class="container">
@@ -1179,7 +1681,7 @@
         <h3>Iluminação Pública Inteligente</h3>
         <p>Sensores de presença e controle adaptativo para redução de consumo energético na iluminação das vias do bairro.</p>
         <div class="proj-meta">
-          <span class="pm-item">🏢 Empresa A</span>
+          <span class="pm-item">🏢 Coprel</span>
           <span class="pm-item">📍 12 pontos</span>
           <span class="pm-item">📅 Jan 2025</span>
         </div>
@@ -1234,6 +1736,116 @@
   </div>
 </section>
 
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-tag">Perguntas frequentes</div>
+      <h2 class="sec-title">Dúvidas sobre o Lab</h2>
+      <p class="sec-desc">Respostas para as perguntas mais comuns sobre o funcionamento do Ijuí City Lab.</p>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-item reveal">
+        <button class="faq-question">O que é um sandbox regulatório?</button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Um sandbox regulatório é um ambiente controlado onde empresas podem testar produtos e serviços inovadores com regras mais flexíveis, sob supervisão das autoridades competentes. No caso do Ijuí City Lab, as empresas operam no bairro São Geraldo com licenças simplificadas concedidas pela Prefeitura de Ijuí.</div>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">Quem pode participar do City Lab?</button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Empresas de tecnologia, startups, scale-ups e organizações que desenvolvam soluções para cidades inteligentes. É necessário ter CNPJ ativo e apresentar um projeto que se enquadre nas áreas de atuação do Lab: mobilidade, energia, saúde, segurança ou dados urbanos.</div>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">Qual o custo para participar?</button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">A participação no Ijuí City Lab não tem custo de adesão. A empresa arca apenas com os custos de implantação e operação do seu próprio projeto. A infraestrutura de rede e o suporte técnico da UNIJUÍ são disponibilizados sem custo adicional durante o período do sandbox.</div>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">Quanto tempo dura o período de testes?</button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">O período padrão de operação no sandbox é de 12 meses, podendo ser renovado por igual período após avaliação do comitê técnico. Projetos com resultados positivos podem ser expandidos para outras áreas da cidade.</div>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">Como funciona o acesso aos dados do bairro?</button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">As empresas participantes recebem acesso a uma API com dados urbanos do bairro São Geraldo, incluindo dados de tráfego, consumo energético, dados climáticos e indicadores ambientais. Todo acesso segue a LGPD e os dados são anonimizados quando necessário.</div>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">Qual o papel da UNIJUÍ no projeto?</button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">A UNIJUÍ é responsável pela gestão técnica do laboratório, fornecendo suporte de pesquisa, orientação acadêmica, análise de impacto dos projetos e coordenação entre as empresas participantes. Professores e alunos participam ativamente dos projetos como parceiros de pesquisa.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section class="contact" id="contato">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-tag">Contato</div>
+      <h2 class="sec-title">Fale com a equipe</h2>
+      <p class="sec-desc">Entre em contato para tirar dúvidas, agendar uma visita ao Lab ou submeter sua proposta de projeto.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <strong>Endereço</strong>
+            <span>Bairro São Geraldo, Ijuí — RS<br>CEP 98700-000</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📧</div>
+          <div>
+            <strong>E-mail</strong>
+            <span>contato@ijuicitylab.com.br</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <strong>Telefone</strong>
+            <span>(55) 3332-0000</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div>
+            <strong>Horário</strong>
+            <span>Segunda a sexta, 8h às 17h</span>
+          </div>
+        </div>
+      </div>
+      <form class="contact-form reveal" onsubmit="event.preventDefault()">
+        <div class="form-row">
+          <input type="text" placeholder="Seu nome" required>
+          <input type="email" placeholder="Seu e-mail" required>
+        </div>
+        <input type="text" placeholder="Nome da empresa">
+        <select required>
+          <option value="" disabled selected>Área de interesse</option>
+          <option value="mobilidade">Mobilidade urbana</option>
+          <option value="energia">Energia inteligente</option>
+          <option value="saude">Saúde e bem-estar</option>
+          <option value="seguranca">Segurança pública</option>
+          <option value="dados">Dados e IoT</option>
+          <option value="outro">Outro</option>
+        </select>
+        <textarea placeholder="Descreva brevemente seu projeto ou dúvida"></textarea>
+        <button type="submit" class="btn-solid">Enviar mensagem</button>
+      </form>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
 <section>
   <div class="container">
@@ -1253,27 +1865,57 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-left">
-    <div class="logo">
-      <div class="logo-mark">ICL</div>
-      <div class="logo-text">
-        <span class="logo-name">IJUÍ</span>
-        <span class="logo-sub"><span>CITY</span><span>LAB</span></span>
-      </div>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <a href="#" class="logo">
+        <div class="logo-mark">ICL</div>
+        <div class="logo-text">
+          <span class="logo-name">IJUÍ</span>
+          <span class="logo-sub"><span>CITY</span><span>LAB</span></span>
+        </div>
+      </a>
+      <p>Laboratório urbano de inovação. Um sandbox regulatório para empresas testarem soluções de cidade inteligente no bairro São Geraldo, Ijuí/RS.</p>
     </div>
+    <div class="footer-col">
+      <h5>NAVEGAÇÃO</h5>
+      <ul>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#beneficios">Benefícios</a></li>
+        <li><a href="#como-funciona">Como funciona</a></li>
+        <li><a href="#projetos">Projetos</a></li>
+        <li><a href="#ecossistema">Ecossistema</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>RECURSOS</h5>
+      <ul>
+        <li><a href="#faq">Perguntas frequentes</a></li>
+        <li><a href="#contato">Contato</a></li>
+        <li><a href="#">Dados abertos</a></li>
+        <li><a href="#">Documentação</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>LEGAL</h5>
+      <ul>
+        <li><a href="#">Privacidade</a></li>
+        <li><a href="#">Termos de uso</a></li>
+        <li><a href="#">LGPD</a></li>
+        <li><a href="#">Regulamento do sandbox</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>Bairro São Geraldo · Ijuí, RS · Brasil</span>
     <div class="footer-partners">
       <span class="fpartner">UNIJUÍ</span>
       <span class="fpartner">Prefeitura de Ijuí</span>
+      <span class="fpartner">Coprel Telecom</span>
     </div>
-  </div>
-  <div class="footer-right">
-    <div>Bairro São Geraldo · Ijuí, RS · Brasil</div>
-    <div><a href="#">Privacidade</a> · <a href="#">Termos</a> · <a href="#">Contato</a></div>
   </div>
 </footer>
 
 <script>
-  // Scroll reveal
   const obs = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
       if (e.isIntersecting) {
@@ -1283,6 +1925,63 @@
   }, { threshold: 0.08 });
 
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  const hamburger = document.querySelector('.hamburger');
+  const mobileMenu = document.querySelector('.mobile-menu');
+
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('active');
+    hamburger.setAttribute('aria-expanded', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const answer = item.querySelector('.faq-answer');
+      const isOpen = item.classList.contains('open');
+
+      document.querySelectorAll('.faq-item.open').forEach(openItem => {
+        openItem.classList.remove('open');
+        openItem.querySelector('.faq-answer').style.maxHeight = null;
+      });
+
+      if (!isOpen) {
+        item.classList.add('open');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY + 100;
+    sections.forEach(section => {
+      const top = section.offsetTop;
+      const height = section.offsetHeight;
+      const id = section.getAttribute('id');
+      if (scrollY >= top && scrollY < top + height) {
+        navLinks.forEach(link => {
+          link.style.color = '';
+          if (link.getAttribute('href') === '#' + id) {
+            link.style.color = 'var(--accent)';
+          }
+        });
+      }
+    });
+  });
 </script>
 </body>
 </html>
