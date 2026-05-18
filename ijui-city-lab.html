@@ -8,1392 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg:       #05080f;
-    --surface:  #0a1020;
-    --surface2: #0f1a30;
-    --border:   #1a2d4a;
-    --accent:   #e8f400;
-    --blue:     #2563eb;
-    --blue-soft:#3b82f6;
-    --text:     #dde8f0;
-    --muted:    #607a90;
-    --white:    #ffffff;
-    --font-display: 'Bebas Neue', sans-serif;
-    --font-body:    'Space Grotesk', sans-serif;
-    --font-mono:    'DM Mono', monospace;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-body);
-    font-size: 16px;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(232,244,0,0.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(232,244,0,0.025) 1px, transparent 1px);
-    background-size: 56px 56px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* ──────────────────── NAV ──────────────────── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 52px;
-    height: 66px;
-    background: rgba(5,8,15,0.88);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    text-decoration: none;
-    flex-shrink: 0;
-  }
-
-  .logo-mark {
-    width: 36px;
-    height: 36px;
-    background: var(--accent);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-display);
-    font-size: 17px;
-    color: var(--bg);
-    letter-spacing: 0.05em;
-    line-height: 1;
-    flex-shrink: 0;
-  }
-
-  .logo-text {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.1;
-  }
-
-  .logo-name {
-    font-family: var(--font-display);
-    font-size: 22px;
-    letter-spacing: 0.18em;
-    color: var(--white);
-    line-height: 1;
-    display: block;
-  }
-
-  .logo-sub {
-    font-family: var(--font-display);
-    font-size: 10.5px;
-    color: var(--accent);
-    text-transform: uppercase;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 2px;
-  }
-
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 36px;
-    list-style: none;
-  }
-
-  .nav-links a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-
-  .nav-links a:hover { color: var(--text); }
-
-  .nav-right { display: flex; gap: 12px; align-items: center; }
-
-  /* Hamburger */
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    z-index: 110;
-  }
-
-  .hamburger span {
-    display: block;
-    width: 24px;
-    height: 2px;
-    background: var(--text);
-    transition: transform 0.3s, opacity 0.3s;
-  }
-
-  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-  .hamburger.active span:nth-child(2) { opacity: 0; }
-  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-
-  /* Mobile overlay */
-  .mobile-menu {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(5,8,15,0.96);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    z-index: 99;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 32px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
-  }
-
-  .mobile-menu.open {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .mobile-menu a {
-    font-family: var(--font-display);
-    font-size: 32px;
-    color: var(--text);
-    text-decoration: none;
-    letter-spacing: 0.1em;
-    transition: color 0.2s;
-  }
-
-  .mobile-menu a:hover { color: var(--accent); }
-
-  .mobile-menu .btn-solid {
-    margin-top: 16px;
-    padding: 14px 40px;
-    font-size: 16px;
-  }
-
-  /* ──────────────────── BUTTONS ──────────────────── */
-  .btn-outline {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 8px 20px;
-    border-radius: 4px;
-    font-size: 13px;
-    font-family: var(--font-body);
-    font-weight: 500;
-    cursor: pointer;
-    text-decoration: none;
-    transition: border-color 0.2s, color 0.2s;
-    letter-spacing: 0.02em;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
-
-  .btn-solid {
-    background: var(--accent);
-    border: none;
-    color: var(--bg);
-    padding: 9px 22px;
-    border-radius: 4px;
-    font-size: 13px;
-    font-weight: 700;
-    font-family: var(--font-body);
-    cursor: pointer;
-    text-decoration: none;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    transition: opacity 0.2s, transform 0.15s;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .btn-solid:hover { opacity: 0.88; transform: translateY(-1px); }
-
-  .btn-hero {
-    padding: 14px 32px;
-    font-size: 14px;
-    border-radius: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  /* ──────────────────── HERO ──────────────────── */
-  .hero {
-    position: relative;
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    padding: 0 52px;
-    gap: 40px;
-    overflow: hidden;
-  }
-
-  .hero-glow {
-    position: absolute;
-    width: 700px;
-    height: 700px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(232,244,0,0.06) 0%, transparent 65%);
-    top: 50%;
-    left: -10%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .hero-left {
-    position: relative;
-    z-index: 1;
-  }
-
-  .hero-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--accent);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 24px;
-    animation: fadeUp 0.5s ease both;
-  }
-
-  .hero-eyebrow::before {
-    content: '';
-    width: 24px;
-    height: 1px;
-    background: var(--accent);
-  }
-
-  .hero-title {
-    font-family: var(--font-display);
-    font-size: clamp(64px, 9vw, 130px);
-    line-height: 0.92;
-    letter-spacing: 0.02em;
-    color: var(--white);
-    margin-bottom: 28px;
-    animation: fadeUp 0.5s ease 0.1s both;
-  }
-
-  .hero-title .line-accent {
-    color: var(--accent);
-    display: block;
-  }
-
-  .hero-title .line-outline {
-    -webkit-text-stroke: 1px rgba(255,255,255,0.25);
-    color: transparent;
-    display: block;
-  }
-
-  .hero-desc {
-    font-size: 16px;
-    color: var(--muted);
-    font-weight: 300;
-    max-width: 440px;
-    line-height: 1.75;
-    margin-bottom: 40px;
-    animation: fadeUp 0.5s ease 0.2s both;
-  }
-
-  .hero-actions {
-    display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
-    animation: fadeUp 0.5s ease 0.3s both;
-  }
-
-  .hero-stats {
-    display: flex;
-    gap: 40px;
-    margin-top: 64px;
-    padding-top: 36px;
-    border-top: 1px solid var(--border);
-    animation: fadeUp 0.5s ease 0.4s both;
-  }
-
-  .stat-val {
-    font-family: var(--font-display);
-    font-size: 42px;
-    letter-spacing: 0.04em;
-    color: var(--white);
-    line-height: 1;
-  }
-
-  .stat-val em { color: var(--accent); font-style: normal; }
-
-  .stat-lbl {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-top: 4px;
-  }
-
-  .hero-right {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-  }
-
-  .hero-visual {
-    position: relative;
-    width: 460px;
-    height: 460px;
-  }
-
-  .ring {
-    position: absolute;
-    border-radius: 50%;
-    border: 1px solid rgba(232,244,0,0.12);
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .ring-1 { width: 120px; height: 120px; border-color: rgba(232,244,0,0.4); animation: expand 4s ease-in-out infinite; }
-  .ring-2 { width: 220px; height: 220px; animation: expand 4s ease-in-out 0.5s infinite; }
-  .ring-3 { width: 320px; height: 320px; animation: expand 4s ease-in-out 1s infinite; }
-  .ring-4 { width: 420px; height: 420px; animation: expand 4s ease-in-out 1.5s infinite; }
-
-  @keyframes expand {
-    0%, 100% { opacity: 0.5; transform: translate(-50%,-50%) scale(1); }
-    50% { opacity: 1; transform: translate(-50%,-50%) scale(1.04); }
-  }
-
-  .hero-center-dot {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 48px;
-    height: 48px;
-    background: var(--accent);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--bg);
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    z-index: 2;
-    box-shadow: 0 0 40px rgba(232,244,0,0.4);
-  }
-
-  .orbit-point {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--accent);
-    top: 50%; left: 50%;
-    transform-origin: 0 0;
-  }
-
-  .orbit-point::after {
-    content: attr(data-label);
-    position: absolute;
-    left: 16px;
-    top: -4px;
-    font-family: var(--font-mono);
-    font-size: 9px;
-    color: var(--muted);
-    white-space: nowrap;
-    letter-spacing: 0.06em;
-  }
-
-  .op-1 { background: var(--accent); transform: translate(-50%,-50%) rotate(0deg) translateX(110px); }
-  .op-2 { background: var(--blue-soft); transform: translate(-50%,-50%) rotate(72deg) translateX(110px); }
-  .op-3 { background: #ff6b6b; transform: translate(-50%,-50%) rotate(144deg) translateX(110px); }
-  .op-4 { background: #a78bfa; transform: translate(-50%,-50%) rotate(216deg) translateX(110px); }
-  .op-5 { background: #34d399; transform: translate(-50%,-50%) rotate(288deg) translateX(110px); }
-
-  .hero-card {
-    position: absolute;
-    background: rgba(10,16,32,0.9);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 16px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    z-index: 3;
-  }
-
-  .hc-1 { top: 60px; right: -20px; }
-  .hc-2 { bottom: 80px; left: -30px; }
-
-  .hc-label {
-    font-family: var(--font-mono);
-    font-size: 9px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 4px;
-  }
-
-  .hc-value {
-    font-family: var(--font-display);
-    font-size: 26px;
-    letter-spacing: 0.06em;
-    color: var(--white);
-    line-height: 1;
-  }
-
-  .hc-value em { color: var(--accent); font-style: normal; }
-
-  .hc-sub {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ──────────────────── SEÇÕES ──────────────────── */
-  section { position: relative; z-index: 1; }
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 52px;
-  }
-
-  .sec-tag {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .sec-tag::before { content: '//'; opacity: 0.5; }
-
-  .sec-title {
-    font-family: var(--font-display);
-    font-size: clamp(36px, 4vw, 60px);
-    letter-spacing: 0.04em;
-    color: var(--white);
-    line-height: 1.05;
-  }
-
-  .sec-desc {
-    font-size: 15px;
-    color: var(--muted);
-    font-weight: 300;
-    max-width: 500px;
-    line-height: 1.75;
-    margin-top: 12px;
-  }
-
-  /* ──────────────────── SOBRE ──────────────────── */
-  .about { padding: 120px 0; }
-
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
-  }
-
-  .about-text .sec-title { margin-bottom: 20px; }
-
-  .about-text p {
-    font-size: 15px;
-    color: var(--muted);
-    font-weight: 300;
-    line-height: 1.8;
-    margin-bottom: 14px;
-  }
-
-  .pillars {
-    margin-top: 32px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .pillar {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 13px 18px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    transition: border-color 0.2s, background 0.2s;
-  }
-
-  .pillar:hover {
-    border-color: rgba(232,244,0,0.3);
-    background: var(--surface2);
-  }
-
-  .pillar-num {
-    font-family: var(--font-display);
-    font-size: 22px;
-    color: var(--accent);
-    opacity: 0.5;
-    width: 28px;
-    flex-shrink: 0;
-  }
-
-  .pillar-body strong {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--white);
-    letter-spacing: 0.02em;
-  }
-
-  .pillar-body span {
-    font-size: 12px;
-    color: var(--muted);
-  }
-
-  .about-visual {
-    position: relative;
-  }
-
-  .about-terminal {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-
-  .terminal-bar {
-    background: var(--surface2);
-    padding: 12px 18px;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .dot { width: 10px; height: 10px; border-radius: 50%; }
-  .dr { background: #ff5f57; }
-  .dy { background: #febc2e; }
-  .dg { background: #28c840; }
-
-  .terminal-title {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--muted);
-    margin-left: 10px;
-  }
-
-  .terminal-body {
-    padding: 24px;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    line-height: 2;
-  }
-
-  .t-comment { color: #3a5270; }
-  .t-key { color: var(--blue-soft); }
-  .t-str { color: #86efac; }
-  .t-accent { color: var(--accent); }
-  .t-num { color: #fca5a5; }
-  .t-muted { color: var(--muted); }
-
-  .about-badge {
-    position: absolute;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 16px;
-  }
-
-  .ab-1 {
-    top: -20px;
-    right: -24px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .ab-icon {
-    width: 34px;
-    height: 34px;
-    background: rgba(232,244,0,0.1);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-  }
-
-  .ab-text strong { display: block; font-size: 13px; color: var(--white); }
-  .ab-text span { font-size: 11px; color: var(--muted); }
-
-  .ab-2 {
-    bottom: 20px;
-    left: -28px;
-  }
-
-  .ab-2 .ab-big {
-    font-family: var(--font-display);
-    font-size: 32px;
-    color: var(--accent);
-    letter-spacing: 0.06em;
-    line-height: 1;
-  }
-
-  .ab-2 span { font-size: 11px; color: var(--muted); display: block; margin-top: 2px; }
-
-  /* ──────────────────── BENEFÍCIOS ──────────────────── */
-  .benefits { padding: 100px 0; }
-
-  .benefits-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-top: 48px;
-  }
-
-  .benefit-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 32px 28px;
-    transition: border-color 0.25s, background 0.2s, transform 0.2s;
-  }
-
-  .benefit-card:hover {
-    border-color: rgba(232,244,0,0.2);
-    background: var(--surface2);
-    transform: translateY(-3px);
-  }
-
-  .benefit-icon {
-    width: 48px;
-    height: 48px;
-    background: rgba(232,244,0,0.08);
-    border: 1px solid rgba(232,244,0,0.15);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    margin-bottom: 20px;
-  }
-
-  .benefit-card h4 {
-    font-family: var(--font-body);
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--white);
-    margin-bottom: 10px;
-  }
-
-  .benefit-card p {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.7;
-  }
-
-  /* ──────────────────── COMO FUNCIONA ──────────────────── */
-  .how { padding: 100px 0; }
-
-  .how-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-    margin-top: 56px;
-  }
-
-  .how-step {
-    background: var(--surface);
-    padding: 36px 28px;
-    transition: background 0.2s;
-  }
-
-  .how-step:hover { background: var(--surface2); }
-
-  .step-n {
-    font-family: var(--font-display);
-    font-size: 56px;
-    color: rgba(232,244,0,0.12);
-    line-height: 1;
-    margin-bottom: 20px;
-  }
-
-  .how-step h4 {
-    font-family: var(--font-body);
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--white);
-    margin-bottom: 8px;
-  }
-
-  .how-step p {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.65;
-  }
-
-  .step-tag {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 9px;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-
-  /* ──────────────────── PROJETOS ──────────────────── */
-  .projects { padding: 100px 0; }
-
-  .projects-header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 48px;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-
-  .project-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 28px;
-    cursor: pointer;
-    transition: border-color 0.25s, transform 0.2s, background 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .project-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--accent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s ease;
-  }
-
-  .project-card:hover {
-    border-color: rgba(232,244,0,0.2);
-    background: var(--surface2);
-    transform: translateY(-3px);
-  }
-
-  .project-card:hover::after { transform: scaleX(1); }
-
-  .proj-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    font-weight: 500;
-    padding: 3px 10px;
-    border-radius: 3px;
-    margin-bottom: 16px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  .ps-active { background: rgba(52,211,153,0.1); color: #34d399; }
-  .ps-review { background: rgba(251,191,36,0.1); color: #fbbf24; }
-  .ps-planned { background: rgba(99,102,241,0.1); color: #818cf8; }
-
-  .ps-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
-
-  .project-card h3 {
-    font-family: var(--font-body);
-    font-size: 17px;
-    font-weight: 600;
-    color: var(--white);
-    margin-bottom: 10px;
-    line-height: 1.3;
-  }
-
-  .project-card p {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.65;
-    margin-bottom: 20px;
-  }
-
-  .proj-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
-  }
-
-  .pm-item {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--muted);
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  /* ──────────────────── ECOSSISTEMA ──────────────────── */
-  .ecosystem { padding: 100px 0; }
-
-  .eco-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-top: 48px;
-  }
-
-  .eco-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 22px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    transition: border-color 0.2s, background 0.2s;
-  }
-
-  .eco-card:hover {
-    border-color: rgba(232,244,0,0.2);
-    background: var(--surface2);
-  }
-
-  .eco-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 6px;
-    background: var(--surface2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    border: 1px solid var(--border);
-  }
-
-  .eco-card h4 {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--white);
-    line-height: 1.3;
-  }
-
-  .eco-card span {
-    font-size: 11px;
-    color: var(--muted);
-  }
-
-  .eco-badge {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 9px;
-    padding: 2px 7px;
-    border-radius: 2px;
-    background: rgba(37,99,235,0.15);
-    color: var(--blue-soft);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    align-self: flex-start;
-  }
-
-  /* ──────────────────── FAQ ──────────────────── */
-  .faq { padding: 100px 0; }
-
-  .faq-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 48px;
-  }
-
-  .faq-item {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: border-color 0.2s;
-  }
-
-  .faq-item:hover { border-color: rgba(232,244,0,0.2); }
-
-  .faq-question {
-    width: 100%;
-    background: none;
-    border: none;
-    padding: 20px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    cursor: pointer;
-    text-align: left;
-    font-family: var(--font-body);
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--white);
-    line-height: 1.4;
-  }
-
-  .faq-question::after {
-    content: '+';
-    font-family: var(--font-display);
-    font-size: 24px;
-    color: var(--accent);
-    flex-shrink: 0;
-    transition: transform 0.3s;
-    line-height: 1;
-  }
-
-  .faq-item.open .faq-question::after {
-    transform: rotate(45deg);
-  }
-
-  .faq-answer {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.35s ease;
-  }
-
-  .faq-answer-inner {
-    padding: 0 24px 20px;
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.75;
-  }
-
-  /* ──────────────────── CONTATO ──────────────────── */
-  .contact { padding: 100px 0; }
-
-  .contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    margin-top: 48px;
-    align-items: start;
-  }
-
-  .contact-info { display: flex; flex-direction: column; gap: 24px; }
-
-  .contact-item {
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-  }
-
-  .contact-icon {
-    width: 44px;
-    height: 44px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-  }
-
-  .contact-item strong {
-    display: block;
-    font-size: 14px;
-    color: var(--white);
-    margin-bottom: 4px;
-  }
-
-  .contact-item span {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.6;
-  }
-
-  .contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
-
-  .contact-form input,
-  .contact-form textarea,
-  .contact-form select {
-    width: 100%;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 14px 18px;
-    font-family: var(--font-body);
-    font-size: 14px;
-    color: var(--text);
-    transition: border-color 0.2s;
-    outline: none;
-  }
-
-  .contact-form input::placeholder,
-  .contact-form textarea::placeholder {
-    color: var(--muted);
-  }
-
-  .contact-form input:focus,
-  .contact-form textarea:focus,
-  .contact-form select:focus {
-    border-color: var(--accent);
-  }
-
-  .contact-form textarea {
-    resize: vertical;
-    min-height: 120px;
-  }
-
-  .contact-form select {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23607a90' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 16px center;
-    padding-right: 40px;
-    cursor: pointer;
-  }
-
-  .contact-form select option {
-    background: var(--surface);
-    color: var(--text);
-  }
-
-  .contact-form .btn-solid {
-    align-self: flex-start;
-    padding: 14px 36px;
-    font-size: 14px;
-  }
-
-  /* ──────────────────── CTA ──────────────────── */
-  .cta-block {
-    margin: 80px 0;
-    padding: 72px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 48px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .cta-block::before {
-    content: 'ICL';
-    position: absolute;
-    right: 280px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-family: var(--font-display);
-    font-size: 200px;
-    color: rgba(232,244,0,0.03);
-    letter-spacing: 0.02em;
-    pointer-events: none;
-    line-height: 1;
-  }
-
-  .cta-block h2 {
-    font-family: var(--font-display);
-    font-size: clamp(28px, 3vw, 48px);
-    letter-spacing: 0.04em;
-    color: var(--white);
-    margin-bottom: 10px;
-    line-height: 1.05;
-  }
-
-  .cta-block p {
-    font-size: 14px;
-    color: var(--muted);
-    max-width: 520px;
-    line-height: 1.75;
-  }
-
-  .cta-btns {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    flex-shrink: 0;
-  }
-
-  /* ──────────────────── FOOTER ──────────────────── */
-  footer {
-    border-top: 1px solid var(--border);
-    position: relative;
-    z-index: 1;
-  }
-
-  .footer-main {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 1fr;
-    gap: 48px;
-    padding: 60px 52px 40px;
-    max-width: 1304px;
-    margin: 0 auto;
-  }
-
-  .footer-brand p {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.7;
-    margin-top: 16px;
-    max-width: 280px;
-  }
-
-  .footer-col h5 {
-    font-family: var(--font-display);
-    font-size: 16px;
-    letter-spacing: 0.1em;
-    color: var(--white);
-    margin-bottom: 16px;
-  }
-
-  .footer-col ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .footer-col a {
-    font-size: 13px;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .footer-col a:hover { color: var(--accent); }
-
-  .footer-bottom {
-    border-top: 1px solid var(--border);
-    padding: 20px 52px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 1304px;
-    margin: 0 auto;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .footer-bottom span {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-
-  .footer-partners { display: flex; gap: 8px; flex-wrap: wrap; }
-
-  .fpartner {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    padding: 4px 10px;
-    border-radius: 3px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  /* ──────────────────── REVEAL ──────────────────── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.65s ease, transform 0.65s ease;
-  }
-  .reveal.visible { opacity: 1; transform: none; }
-
-  /* ──────────────────── SCROLLBAR ──────────────────── */
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-  /* ──────────────────── RESPONSIVE — TABLET ──────────────────── */
-  @media (max-width: 1024px) {
-    nav { padding: 0 28px; }
-    .container { padding: 0 28px; }
-    .hero { padding: 0 28px; gap: 24px; }
-
-    .nav-links { gap: 20px; }
-
-    .hero-visual { width: 340px; height: 340px; }
-    .ring-1 { width: 90px; height: 90px; }
-    .ring-2 { width: 160px; height: 160px; }
-    .ring-3 { width: 240px; height: 240px; }
-    .ring-4 { width: 310px; height: 310px; }
-
-    .about-grid { gap: 40px; }
-    .how-grid { grid-template-columns: repeat(2, 1fr); }
-    .projects-grid { grid-template-columns: repeat(2, 1fr); }
-    .eco-grid { grid-template-columns: repeat(2, 1fr); }
-    .benefits-grid { grid-template-columns: repeat(2, 1fr); }
-
-    .footer-main { grid-template-columns: 1fr 1fr; gap: 36px; padding: 48px 28px 32px; }
-    .footer-bottom { padding: 20px 28px; }
-
-    .cta-block { padding: 48px; }
-  }
-
-  /* ──────────────────── RESPONSIVE — MOBILE ──────────────────── */
-  @media (max-width: 768px) {
-    nav { padding: 0 20px; }
-    .nav-links { display: none; }
-    .nav-right .btn-outline,
-    .nav-right .btn-solid { display: none; }
-    .hamburger { display: flex; }
-    .mobile-menu { display: flex; }
-
-    .container { padding: 0 20px; }
-
-    .hero {
-      grid-template-columns: 1fr;
-      padding: 100px 20px 60px;
-      min-height: auto;
-      gap: 0;
-    }
-
-    .hero-right {
-      height: auto;
-      padding: 40px 0;
-    }
-
-    .hero-visual { width: 280px; height: 280px; }
-    .ring-1 { width: 70px; height: 70px; }
-    .ring-2 { width: 130px; height: 130px; }
-    .ring-3 { width: 190px; height: 190px; }
-    .ring-4 { width: 250px; height: 250px; }
-
-    .hero-card { display: none; }
-
-    .hero-stats {
-      gap: 24px;
-      margin-top: 40px;
-      padding-top: 24px;
-      flex-wrap: wrap;
-    }
-
-    .stat-val { font-size: 32px; }
-
-    .about { padding: 80px 0; }
-    .about-grid { grid-template-columns: 1fr; gap: 48px; }
-    .about-badge { display: none; }
-
-    .benefits { padding: 80px 0; }
-    .benefits-grid { grid-template-columns: 1fr; margin-top: 36px; }
-
-    .how { padding: 80px 0; }
-    .how-grid { grid-template-columns: 1fr; margin-top: 36px; }
-
-    .projects { padding: 80px 0; }
-    .projects-grid { grid-template-columns: 1fr; }
-    .projects-header { flex-direction: column; align-items: flex-start; }
-
-    .ecosystem { padding: 80px 0; }
-    .eco-grid { grid-template-columns: 1fr 1fr; margin-top: 36px; }
-
-    .faq { padding: 80px 0; }
-    .faq-grid { grid-template-columns: 1fr; margin-top: 36px; }
-
-    .contact { padding: 80px 0; }
-    .contact-grid { grid-template-columns: 1fr; gap: 40px; margin-top: 36px; }
-    .form-row { grid-template-columns: 1fr; }
-
-    .cta-block {
-      grid-template-columns: 1fr;
-      padding: 36px 24px;
-      margin: 48px 0;
-      text-align: center;
-    }
-    .cta-btns { flex-direction: row; justify-content: center; flex-wrap: wrap; }
-    .cta-block::before { display: none; }
-
-    .footer-main { grid-template-columns: 1fr; gap: 32px; padding: 40px 20px 24px; }
-    .footer-bottom { padding: 16px 20px; flex-direction: column; text-align: center; }
-
-    .btn-hero { padding: 12px 24px; font-size: 13px; }
-  }
-
-  /* ──────────────────── RESPONSIVE — SMALL MOBILE ──────────────────── */
-  @media (max-width: 400px) {
-    .hero-title { font-size: 52px; }
-    .hero-visual { width: 220px; height: 220px; }
-    .ring-4 { width: 200px; height: 200px; }
-    .hero-stats { flex-direction: column; gap: 16px; }
-    .eco-grid { grid-template-columns: 1fr; }
-  }
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<a href="#conteudo" class="skip-link">Pular para o conteúdo</a>
 
 <!-- NAV -->
 <nav>
@@ -1406,14 +24,16 @@
   </a>
   <ul class="nav-links">
     <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#mapa-sandbox">Mapa</a></li>
+    <li><a href="#incentivos">Incentivos</a></li>
     <li><a href="#beneficios">Benefícios</a></li>
-    <li><a href="#como-funciona">Como funciona</a></li>
     <li><a href="#projetos">Projetos</a></li>
+    <li><a href="#resultados">Resultados</a></li>
+    <li><a href="#dados-regionais">Dados</a></li>
     <li><a href="#ecossistema">Ecossistema</a></li>
-    <li><a href="#contato">Contato</a></li>
   </ul>
   <div class="nav-right">
-    <a href="#login" class="btn-outline">Entrar</a>
+    <a href="#contato" class="btn-outline">Contato</a>
     <a href="#participar" class="btn-solid">Participar</a>
     <button class="hamburger" aria-label="Abrir menu" aria-expanded="false">
       <span></span>
@@ -1424,11 +44,15 @@
 </nav>
 
 <!-- MOBILE MENU -->
-<div class="mobile-menu" role="dialog" aria-label="Menu de navegação">
+<div class="mobile-menu" role="dialog" aria-label="Menu de navegação" aria-hidden="true">
   <a href="#sobre">SOBRE</a>
+  <a href="#mapa-sandbox">MAPA</a>
+  <a href="#incentivos">INCENTIVOS</a>
   <a href="#beneficios">BENEFÍCIOS</a>
   <a href="#como-funciona">COMO FUNCIONA</a>
   <a href="#projetos">PROJETOS</a>
+  <a href="#resultados">RESULTADOS</a>
+  <a href="#dados-regionais">DADOS</a>
   <a href="#ecossistema">ECOSSISTEMA</a>
   <a href="#faq">FAQ</a>
   <a href="#contato">CONTATO</a>
@@ -1436,6 +60,7 @@
 </div>
 
 <!-- HERO -->
+<main id="conteudo" tabindex="-1">
 <div class="hero">
   <div class="hero-glow"></div>
 
@@ -1472,17 +97,36 @@
   </div>
 
   <div class="hero-right">
-    <div class="hero-visual">
+    <div class="hero-visual" aria-label="Áreas de atuação do Ijuí City Lab">
       <div class="ring ring-1"></div>
       <div class="ring ring-2"></div>
       <div class="ring ring-3"></div>
       <div class="ring ring-4"></div>
       <div class="hero-center-dot">ICL</div>
-      <div class="orbit-point op-1" data-label="MOBILIDADE"></div>
-      <div class="orbit-point op-2" data-label="ENERGIA"></div>
-      <div class="orbit-point op-3" data-label="SAÚDE"></div>
-      <div class="orbit-point op-4" data-label="SEGURANÇA"></div>
-      <div class="orbit-point op-5" data-label="DADOS"></div>
+      <div class="orbit-track" aria-label="Selecione uma área para ver detalhes">
+        <button class="orbit-point op-1 active" type="button" aria-pressed="true" data-index="0" data-angle="0" data-radius="110" data-ring="2" data-label="MOBILIDADE" data-title="Mobilidade urbana" data-value="Tráfego inteligente" data-sub="IA, sensores e fluxo viário">
+          <span>MOBILIDADE</span>
+        </button>
+        <button class="orbit-point op-2" type="button" aria-pressed="false" data-index="1" data-angle="72" data-radius="150" data-ring="3" data-label="ENERGIA" data-title="Energia inteligente" data-value="Eficiência pública" data-sub="Iluminação e consumo monitorado">
+          <span>ENERGIA</span>
+        </button>
+        <button class="orbit-point op-3" type="button" aria-pressed="false" data-index="2" data-angle="144" data-radius="110" data-ring="2" data-label="SAÚDE" data-title="Saúde e bem-estar" data-value="Ambiente saudável" data-sub="Qualidade do ar, ruído e clima">
+          <span>SAÚDE</span>
+        </button>
+        <button class="orbit-point op-4" type="button" aria-pressed="false" data-index="3" data-angle="216" data-radius="150" data-ring="3" data-label="SEGURANÇA" data-title="Segurança urbana" data-value="Monitoramento cívico" data-sub="Alertas, iluminação e prevenção">
+          <span>SEGURANÇA</span>
+        </button>
+        <button class="orbit-point op-5" type="button" aria-pressed="false" data-index="4" data-angle="288" data-radius="200" data-ring="4" data-label="DADOS" data-title="Dados urbanos" data-value="API do bairro" data-sub="Indicadores abertos e anonimizados">
+          <span>DADOS</span>
+        </button>
+      </div>
+
+      <div class="orbit-panel" aria-live="polite">
+        <div class="orbit-panel-kicker">Área selecionada</div>
+        <div class="orbit-panel-title">Mobilidade urbana</div>
+        <div class="orbit-panel-value">Tráfego inteligente</div>
+        <div class="orbit-panel-sub">IA, sensores e fluxo viário</div>
+      </div>
 
       <div class="hero-card hc-1">
         <div class="hc-label">Status</div>
@@ -1575,6 +219,30 @@
   </div>
 </section>
 
+<!-- MAPA DA SANDBOX -->
+<section class="sandbox-map" id="mapa-sandbox">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="sec-tag">Mapa da sandbox</div>
+      <h2 class="sec-title">Encontre a área de testes</h2>
+      <p class="sec-desc">Referência geográfica para empreendedores, empresas consolidadas e parceiros planejarem visitas, pilotos e implantação de soluções.</p>
+    </div>
+    <div class="sandbox-map-shell reveal" data-render="sandbox-map"></div>
+  </div>
+</section>
+
+<!-- INCENTIVOS -->
+<section class="incentives" id="incentivos">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="sec-tag">Incentivos e fomento</div>
+      <h2 class="sec-title">Por que empreender no Lab</h2>
+    </div>
+    <div class="incentives-grid" data-render="incentives"></div>
+    <p class="section-note reveal">Informações resumidas para orientação inicial. Consulte a legislação, editais vigentes e a equipe responsável antes de tomar decisões fiscais, jurídicas ou operacionais.</p>
+  </div>
+</section>
+
 <!-- BENEFÍCIOS -->
 <section class="benefits" id="beneficios">
   <div class="container">
@@ -1624,14 +292,13 @@
     <div class="reveal">
       <div class="sec-tag">Processo</div>
       <h2 class="sec-title">Como participar</h2>
-      <p class="sec-desc">Processo simplificado para empresas que queiram testar soluções no bairro São Geraldo.</p>
     </div>
     <div class="how-grid reveal">
       <div class="how-step">
         <div class="step-n">01</div>
-        <span class="step-tag">Cadastro</span>
-        <h4>Cadastro da empresa</h4>
-        <p>Crie sua conta na plataforma e envie o perfil da empresa para análise inicial.</p>
+        <span class="step-tag">Contato</span>
+        <h4>Fale conosco</h4>
+        <p>Contate a equipe do Ijuí City Lab para iniciar o processo de inscrição.</p>
       </div>
       <div class="how-step">
         <div class="step-n">02</div>
@@ -1663,10 +330,10 @@
         <div class="sec-tag">Projetos em andamento</div>
         <h2 class="sec-title">O que está sendo testado</h2>
       </div>
-      <a href="#todos" class="btn-outline">Ver todos →</a>
+      <a href="#formulario-participacao" class="btn-outline">Propor projeto →</a>
     </div>
     <div class="projects-grid">
-      <div class="project-card reveal">
+      <div class="project-card reveal" tabindex="0" role="button" aria-expanded="false">
         <div class="proj-status ps-active"><div class="ps-dot"></div>Em operação</div>
         <h3>Monitoramento de Tráfego com IA</h3>
         <p>Câmeras com visão computacional para contagem e classificação de veículos em tempo real nas vias do bairro São Geraldo.</p>
@@ -1675,8 +342,26 @@
           <span class="pm-item">📍 4 pontos</span>
           <span class="pm-item">📅 Nov 2024</span>
         </div>
+        <div class="project-expand">
+          <div class="project-expand-inner">
+            <figure>
+              <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80" alt="Cruzamento urbano monitorado por sensores e câmeras">
+              <figcaption>Troque o endereço da imagem no atributo src para usar uma foto real do projeto.</figcaption>
+            </figure>
+            <div class="project-expand-copy">
+              <span class="step-tag">Detalhes do piloto</span>
+              <h4>Leitura de fluxo em pontos críticos</h4>
+              <p>O teste mede volume, classificação e horários de maior circulação para apoiar decisões de mobilidade e planejamento urbano.</p>
+              <ul>
+                <li>4 pontos de observação no bairro</li>
+                <li>Indicadores agregados e anonimizados</li>
+                <li>Base para relatórios de impacto</li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="project-card reveal">
+      <div class="project-card reveal" tabindex="0" role="button" aria-expanded="false">
         <div class="proj-status ps-review"><div class="ps-dot"></div>Em análise</div>
         <h3>Iluminação Pública Inteligente</h3>
         <p>Sensores de presença e controle adaptativo para redução de consumo energético na iluminação das vias do bairro.</p>
@@ -1685,8 +370,26 @@
           <span class="pm-item">📍 12 pontos</span>
           <span class="pm-item">📅 Jan 2025</span>
         </div>
+        <div class="project-expand">
+          <div class="project-expand-inner">
+            <figure>
+              <img src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=80" alt="Rua urbana iluminada durante a noite">
+              <figcaption>Use uma foto própria dos postes, sensores ou luminárias quando o piloto estiver documentado.</figcaption>
+            </figure>
+            <div class="project-expand-copy">
+              <span class="step-tag">Eficiência energética</span>
+              <h4>Controle adaptativo de luminárias</h4>
+              <p>O projeto avalia economia, segurança percebida e manutenção preventiva a partir de sensores e dados de operação.</p>
+              <ul>
+                <li>12 pontos previstos para teste</li>
+                <li>Redução de consumo como métrica central</li>
+                <li>Monitoramento remoto da operação</li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="project-card reveal">
+      <div class="project-card reveal" tabindex="0" role="button" aria-expanded="false">
         <div class="proj-status ps-planned"><div class="ps-dot"></div>Planejado</div>
         <h3>Qualidade do Ar e Ruído</h3>
         <p>Rede de sensores IoT para monitoramento contínuo da qualidade do ar e níveis de ruído no bairro em tempo real.</p>
@@ -1695,8 +398,41 @@
           <span class="pm-item">📍 Área geral</span>
           <span class="pm-item">📅 Mar 2025</span>
         </div>
+        <div class="project-expand">
+          <div class="project-expand-inner">
+            <figure>
+              <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=1200&q=80" alt="Sensor ambiental em área urbana com vegetação">
+              <figcaption>Substitua por imagens dos sensores instalados ou do painel de indicadores ambientais.</figcaption>
+            </figure>
+            <div class="project-expand-copy">
+              <span class="step-tag">Indicadores ambientais</span>
+              <h4>Monitoramento distribuído do bairro</h4>
+              <p>A proposta cruza dados de ruído, clima e qualidade do ar para orientar intervenções urbanas e pesquisas aplicadas.</p>
+              <ul>
+                <li>Rede IoT de baixa manutenção</li>
+                <li>Dados agregados para dashboards públicos</li>
+                <li>Base para alertas e estudos acadêmicos</li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+  </div>         
+</section>
+
+<!-- RESULTADOS -->
+<section class="results" id="resultados">
+  <div class="container">
+    <div class="projects-header reveal">
+      <div>
+        <div class="sec-tag">Resultados públicos</div>
+        <h2 class="sec-title">Impacto sem expor dados sensíveis</h2>
+        <p class="sec-desc">Indicadores agregados e cases autorizados para mostrar tração, aprendizado e oportunidades de conexão.</p>
+      </div>
+      <a href="#contato" class="btn-outline">Enviar case →</a>
+    </div>
+    <div class="results-grid" data-render="impact-results"></div>
   </div>
 </section>
 
@@ -1704,7 +440,7 @@
 <section class="ecosystem" id="ecossistema">
   <div class="container">
     <div class="reveal">
-      <div class="sec-tag">Ecossistema</div>
+      <div class="sec-tag">Ecossistema de parceiros</div>
       <h2 class="sec-title">Quem faz parte do Lab</h2>
     </div>
     <div class="eco-grid reveal">
@@ -1736,6 +472,24 @@
   </div>
 </section>
 
+<!-- DADOS REGIONAIS -->
+<section class="regional-data" id="dados-regionais">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="sec-tag">Dados regionais</div>
+      <h2 class="sec-title">Empreendedorismo no Noroeste e Missões</h2>
+    </div>
+    <div class="regional-grid">
+      <div class="regional-metrics" data-render="regional-metrics"></div>
+      <div class="regional-sectors reveal">
+        <h3>Áreas com maior presença nos desafios</h3>
+        <div class="sector-bars" data-render="regional-sectors"></div>
+      </div>
+    </div>
+    <div class="source-strip reveal" data-render="regional-sources"></div>
+  </div>
+</section>
+
 <!-- FAQ -->
 <section class="faq" id="faq">
   <div class="container">
@@ -1746,41 +500,58 @@
     </div>
     <div class="faq-grid">
       <div class="faq-item reveal">
-        <button class="faq-question">O que é um sandbox regulatório?</button>
-        <div class="faq-answer">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-1">O que é um sandbox regulatório?</button>
+        <div class="faq-answer" id="faq-answer-1" role="region">
           <div class="faq-answer-inner">Um sandbox regulatório é um ambiente controlado onde empresas podem testar produtos e serviços inovadores com regras mais flexíveis, sob supervisão das autoridades competentes. No caso do Ijuí City Lab, as empresas operam no bairro São Geraldo com licenças simplificadas concedidas pela Prefeitura de Ijuí.</div>
         </div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-question">Quem pode participar do City Lab?</button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Empresas de tecnologia, startups, scale-ups e organizações que desenvolvam soluções para cidades inteligentes. É necessário ter CNPJ ativo e apresentar um projeto que se enquadre nas áreas de atuação do Lab: mobilidade, energia, saúde, segurança ou dados urbanos.</div>
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-2">Quem pode participar do City Lab?</button>
+        <div class="faq-answer" id="faq-answer-2" role="region">
+          <div class="faq-answer-inner">Empresas de tecnologia, startups, scale-ups e organizações que desenvolvam soluções para cidades inteligentes. É necessário ter CNPJ ativo e apresentar um projeto que se enquadre nas áreas de atuação do Lab: mobilidade, energia, saúde, segurança, dados urbanos, agronegócio urbano, turismo, entre outros.</div>
         </div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-question">Qual o custo para participar?</button>
-        <div class="faq-answer">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-3">Qual o custo para participar?</button>
+        <div class="faq-answer" id="faq-answer-3" role="region">
           <div class="faq-answer-inner">A participação no Ijuí City Lab não tem custo de adesão. A empresa arca apenas com os custos de implantação e operação do seu próprio projeto. A infraestrutura de rede e o suporte técnico da UNIJUÍ são disponibilizados sem custo adicional durante o período do sandbox.</div>
         </div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-question">Quanto tempo dura o período de testes?</button>
-        <div class="faq-answer">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-4">Quanto tempo dura o período de testes?</button>
+        <div class="faq-answer" id="faq-answer-4" role="region">
           <div class="faq-answer-inner">O período padrão de operação no sandbox é de 12 meses, podendo ser renovado por igual período após avaliação do comitê técnico. Projetos com resultados positivos podem ser expandidos para outras áreas da cidade.</div>
         </div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-question">Como funciona o acesso aos dados do bairro?</button>
-        <div class="faq-answer">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-5">Como funciona o acesso aos dados do bairro?</button>
+        <div class="faq-answer" id="faq-answer-5" role="region">
           <div class="faq-answer-inner">As empresas participantes recebem acesso a uma API com dados urbanos do bairro São Geraldo, incluindo dados de tráfego, consumo energético, dados climáticos e indicadores ambientais. Todo acesso segue a LGPD e os dados são anonimizados quando necessário.</div>
         </div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-question">Qual o papel da UNIJUÍ no projeto?</button>
-        <div class="faq-answer">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-6">Qual o papel da UNIJUÍ no projeto?</button>
+        <div class="faq-answer" id="faq-answer-6" role="region">
           <div class="faq-answer-inner">A UNIJUÍ é responsável pela gestão técnica do laboratório, fornecendo suporte de pesquisa, orientação acadêmica, análise de impacto dos projetos e coordenação entre as empresas participantes. Professores e alunos participam ativamente dos projetos como parceiros de pesquisa.</div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCUMENTOS E POLÍTICAS -->
+<section class="legal-docs" id="documentos-legais">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="sec-tag">Documentos e políticas</div>
+      <h2 class="sec-title">Bases legais do Lab</h2>
+      <p class="sec-desc">Resumos editáveis para orientar visitantes e proponentes. Estes textos são informativos e devem ser revisados pela equipe jurídica antes de uso oficial.</p>
+    </div>
+    <div class="legal-grid" data-render="legal-policies">
+      <span id="privacidade"></span>
+      <span id="termos"></span>
+      <span id="lgpd"></span>
+      <span id="regulamento-sandbox"></span>
     </div>
   </div>
 </section>
@@ -1824,7 +595,7 @@
           </div>
         </div>
       </div>
-      <form class="contact-form reveal" onsubmit="event.preventDefault()">
+      <form class="contact-form reveal">
         <div class="form-row">
           <input type="text" placeholder="Seu nome" required>
           <input type="email" placeholder="Seu e-mail" required>
@@ -1841,29 +612,83 @@
         </select>
         <textarea placeholder="Descreva brevemente seu projeto ou dúvida"></textarea>
         <button type="submit" class="btn-solid">Enviar mensagem</button>
+        <p class="form-feedback" role="status" aria-live="polite"></p>
       </form>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
-<section>
+<!-- PARTICIPAR -->
+<section class="participation" id="participar">
   <div class="container">
-    <div class="cta-block reveal">
-      <div>
-        <div class="sec-tag">Participe</div>
-        <h2>SUA EMPRESA<br>NO CITY LAB</h2>
-        <p>Acesse um ambiente regulatório flexível, dados urbanos reais e suporte técnico da UNIJUÍ para desenvolver e testar sua solução no bairro São Geraldo.</p>
-      </div>
-      <div class="cta-btns">
-        <a href="#participar" class="btn-solid btn-hero">Quero participar</a>
+    <div class="section-head reveal">
+      <div class="sec-tag">Participe</div>
+      <h2 class="sec-title" data-render="participation-title">Submeta sua proposta</h2>
+      <p class="sec-desc" data-render="participation-description">Apresente uma solução para testar no bairro São Geraldo com apoio técnico, dados urbanos e acompanhamento regulatório do Ijuí City Lab.</p>
+      <div class="section-actions">
+        <a href="#formulario-participacao" class="btn-solid btn-hero">Quero participar</a>
         <a href="#contato" class="btn-outline btn-hero">Falar com a equipe</a>
       </div>
+    </div>
+
+    <div class="participation-grid">
+      <div class="participation-info">
+        <div class="criteria-grid" data-render="participation-criteria"></div>
+        <div class="submission-panel reveal">
+          <div>
+            <h3>Antes de enviar</h3>
+            <ul data-render="participation-checklist"></ul>
+          </div>
+          <div>
+            <h3>Depois da submissão</h3>
+            <ol data-render="participation-steps"></ol>
+          </div>
+        </div>
+      </div>
+
+      <form class="proposal-form reveal" id="formulario-participacao">
+        <div class="proposal-form-head">
+          <span class="map-status">Submissão inicial</span>
+          <h3>Conte sobre sua proposta</h3>
+          <p>Este formulário é uma triagem estática para organizar as informações básicas do projeto.</p>
+        </div>
+        <div class="form-row">
+          <input type="text" name="nome" placeholder="Seu nome" autocomplete="name" required>
+          <input type="email" name="email" placeholder="Seu e-mail" autocomplete="email" required>
+        </div>
+        <div class="form-row">
+          <input type="text" name="proponente" placeholder="Empresa ou proponente" required>
+          <input type="text" name="cnpj" placeholder="CNPJ (opcional)">
+        </div>
+        <div class="form-row">
+          <select name="perfil" data-render="participation-profiles" required>
+            <option value="" disabled selected>Perfil do proponente</option>
+          </select>
+          <select name="area" data-render="participation-areas" required>
+            <option value="" disabled selected>Área de interesse</option>
+          </select>
+        </div>
+        <select name="estagio" data-render="participation-stages" required>
+          <option value="" disabled selected>Estágio da solução</option>
+        </select>
+        <input type="text" name="objetivo" placeholder="Objetivo do teste na sandbox" required>
+        <textarea name="resumo" placeholder="Resumo da proposta, infraestrutura necessária e resultado esperado" required></textarea>
+        <label class="proposal-consent">
+          <input type="checkbox" required>
+          <span>Entendo que esta é uma submissão inicial e que o envio oficial depende de contato e validação da equipe do Ijuí City Lab.</span>
+        </label>
+        <button type="submit" class="btn-solid">Registrar proposta</button>
+        <p class="proposal-feedback" role="status" aria-live="polite"></p>
+        <div class="cta-btns">
+        <a href="#contato" class="btn-outline btn-hero">Falar com a equipe</a>
+      </div>
+      </form>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
+</main>
 <footer>
   <div class="footer-main">
     <div class="footer-brand">
@@ -1880,28 +705,30 @@
       <h5>NAVEGAÇÃO</h5>
       <ul>
         <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#mapa-sandbox">Mapa da sandbox</a></li>
+        <li><a href="#incentivos">Incentivos</a></li>
         <li><a href="#beneficios">Benefícios</a></li>
-        <li><a href="#como-funciona">Como funciona</a></li>
         <li><a href="#projetos">Projetos</a></li>
-        <li><a href="#ecossistema">Ecossistema</a></li>
+        <li><a href="#resultados">Resultados</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h5>RECURSOS</h5>
       <ul>
+        <li><a href="#dados-regionais">Dados regionais</a></li>
+        <li><a href="#ecossistema">Ecossistema</a></li>
+        <li><a href="#como-funciona">Como participar</a></li>
         <li><a href="#faq">Perguntas frequentes</a></li>
         <li><a href="#contato">Contato</a></li>
-        <li><a href="#">Dados abertos</a></li>
-        <li><a href="#">Documentação</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h5>LEGAL</h5>
       <ul>
-        <li><a href="#">Privacidade</a></li>
-        <li><a href="#">Termos de uso</a></li>
-        <li><a href="#">LGPD</a></li>
-        <li><a href="#">Regulamento do sandbox</a></li>
+        <li><a href="#privacidade">Privacidade</a></li>
+        <li><a href="#termos">Termos de uso</a></li>
+        <li><a href="#lgpd">LGPD</a></li>
+        <li><a href="#regulamento-sandbox">Regulamento do sandbox</a></li>
       </ul>
     </div>
   </div>
@@ -1914,74 +741,7 @@
     </div>
   </div>
 </footer>
-
-<script>
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 90);
-      }
-    });
-  }, { threshold: 0.08 });
-
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-
-  const hamburger = document.querySelector('.hamburger');
-  const mobileMenu = document.querySelector('.mobile-menu');
-
-  hamburger.addEventListener('click', () => {
-    const isOpen = mobileMenu.classList.toggle('open');
-    hamburger.classList.toggle('active');
-    hamburger.setAttribute('aria-expanded', isOpen);
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-  });
-
-  mobileMenu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      mobileMenu.classList.remove('open');
-      hamburger.classList.remove('active');
-      hamburger.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    });
-  });
-
-  document.querySelectorAll('.faq-question').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.parentElement;
-      const answer = item.querySelector('.faq-answer');
-      const isOpen = item.classList.contains('open');
-
-      document.querySelectorAll('.faq-item.open').forEach(openItem => {
-        openItem.classList.remove('open');
-        openItem.querySelector('.faq-answer').style.maxHeight = null;
-      });
-
-      if (!isOpen) {
-        item.classList.add('open');
-        answer.style.maxHeight = answer.scrollHeight + 'px';
-      }
-    });
-  });
-
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-links a');
-
-  window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY + 100;
-    sections.forEach(section => {
-      const top = section.offsetTop;
-      const height = section.offsetHeight;
-      const id = section.getAttribute('id');
-      if (scrollY >= top && scrollY < top + height) {
-        navLinks.forEach(link => {
-          link.style.color = '';
-          if (link.getAttribute('href') === '#' + id) {
-            link.style.color = 'var(--accent)';
-          }
-        });
-      }
-    });
-  });
-</script>
+<script src="site-data.js"></script>
+<script src="script.js" defer></script>
 </body>
 </html>
