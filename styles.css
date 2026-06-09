@@ -1945,11 +1945,6 @@
     transition: max-height 0.35s ease;
   }
 
-  /* Garante que apenas a FAQ aberta mostre conteúdo */
-  .faq-item:not(.open) .faq-answer {
-    display: none;
-  }
-
   .faq-answer-inner {
     padding: 0 24px 20px;
     font-size: 13px;
