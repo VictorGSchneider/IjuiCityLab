@@ -60,34 +60,34 @@ window.ICL_SITE_DATA = {
 
   impactResults: [
     {
-      name: 'Startup Lab Noroeste e Missões',
-      type: 'Inovação aberta',
-      result: 'Empresas e startups conectadas em desafios regionais de inovação.',
-      metric: '11 empresas participantes',
-      detail: 'Programa conectou desafios corporativos a soluções desenvolvidas por startups.',
-      source: 'Inova RS',
-      sourceUrl: 'https://inova.rs.gov.br/regiao-noroeste-e-missoes-realiza-rodadas-de-conexoes-do-ciclo-4-do-startup-lab',
-      updatedAt: '2025-12-26'
+      name: 'Projetos em operação',
+      type: 'Status atual',
+      result: 'Soluções de cidade inteligente testadas e validadas no bairro São Geraldo com dados reais.',
+      metric: '3 projetos pilotos',
+      detail: 'Monitoramento de tráfego, iluminação inteligente e sensores ambientais em funcionamento contínuo.',
+      source: 'Ijuí City Lab',
+      sourceUrl: '#projetos',
+      updatedAt: '2026-06-08'
     },
     {
-      name: 'Soluções apresentadas',
-      type: 'Resultados não sensíveis',
-      result: 'Propostas avaliadas por empresas da região para amadurecer iniciativas com potencial de desenvolvimento conjunto.',
-      metric: '59 soluções inovadoras',
-      detail: 'Indicador público agregado, sem expor dados comerciais ou pessoais.',
-      source: 'Inova RS',
-      sourceUrl: 'https://inova.rs.gov.br/regiao-noroeste-e-missoes-realiza-rodadas-de-conexoes-do-ciclo-4-do-startup-lab',
-      updatedAt: '2025-12-26'
+      name: 'Empresas e parceiros',
+      type: 'Ecossistema colaborativo',
+      result: 'Instituições públicas, acadêmicas e privadas trabalhando integradas para testar inovações urbanas.',
+      metric: '8 empresas + 2 instituições',
+      detail: 'UNIJUÍ, Prefeitura de Ijuí, Coprel, e 8 empresas de tecnologia operando na sandbox.',
+      source: 'Ijuí City Lab',
+      sourceUrl: '#ecossistema',
+      updatedAt: '2026-06-08'
     },
     {
-      name: 'Startups respondentes',
-      type: 'Ecossistema regional',
-      result: 'Startups apresentaram soluções para demandas de produção, comercial, tecnologia, sustentabilidade e gestão.',
-      metric: '24 startups',
-      detail: 'Use este card como modelo para incluir cases autorizados do City Lab.',
-      source: 'Inova RS',
-      sourceUrl: 'https://inova.rs.gov.br/regiao-noroeste-e-missoes-realiza-rodadas-de-conexoes-do-ciclo-4-do-startup-lab',
-      updatedAt: '2025-12-26'
+      name: 'Indicadores do bairro São Geraldo',
+      type: 'Impacto mensurável',
+      result: 'Dados urbanos reais coletados e agregados para orientar decisões e pesquisa aplicada.',
+      metric: '12+ indicadores',
+      detail: 'Tráfego, energia, qualidade do ar, ruído, clima e outros dados disponíveis via API do Lab.',
+      source: 'Ijuí City Lab',
+      sourceUrl: '#dados-regionais',
+      updatedAt: '2026-06-08'
     }
   ],
 
@@ -154,64 +154,64 @@ window.ICL_SITE_DATA = {
   },
 
   regionalStats: {
-    intro: 'Indicadores públicos e editáveis para orientar empreendedores, investidores e empresas interessadas no potencial da região Noroeste e Missões.',
+    intro: 'Métricas e indicadores do Ijuí City Lab e do bairro São Geraldo. Dados públicos, agregados e anonimizados para orientar decisões urbanas e oportunidades de inovação.',
     metrics: [
       {
-        label: 'Startups em rodada regional',
-        value: '24',
-        suffix: 'startups',
-        description: 'Quantidade de startups que apresentaram soluções no ciclo regional do Startup Lab.',
-        source: 'Inova RS',
-        sourceUrl: 'https://inova.rs.gov.br/regiao-noroeste-e-missoes-realiza-rodadas-de-conexoes-do-ciclo-4-do-startup-lab',
-        updatedAt: '2025-12-26'
+        label: 'População do bairro São Geraldo',
+        value: '~2.8',
+        suffix: 'mil habitantes',
+        description: 'Número aproximado de moradores na área experimental da sandbox regulatória.',
+        source: 'Prefeitura de Ijuí',
+        sourceUrl: '#contato',
+        updatedAt: '2026-06-08'
       },
       {
-        label: 'Empresas conectadas',
-        value: '11',
-        suffix: 'empresas',
-        description: 'Empresas participantes do ciclo de inovação aberta na região.',
-        source: 'Inova RS',
-        sourceUrl: 'https://inova.rs.gov.br/regiao-noroeste-e-missoes-realiza-rodadas-de-conexoes-do-ciclo-4-do-startup-lab',
-        updatedAt: '2025-12-26'
+        label: 'Área da sandbox',
+        value: '1.0',
+        suffix: 'km²',
+        description: 'Extensão do bairro São Geraldo destinada aos testes de soluções de cidade inteligente.',
+        source: 'Ijuí City Lab',
+        sourceUrl: '#mapa-sandbox',
+        updatedAt: '2026-06-08'
       },
       {
-        label: 'Soluções inovadoras',
-        value: '59',
-        suffix: 'soluções',
-        description: 'Soluções apresentadas às empresas participantes.',
-        source: 'Inova RS',
-        sourceUrl: 'https://inova.rs.gov.br/regiao-noroeste-e-missoes-realiza-rodadas-de-conexoes-do-ciclo-4-do-startup-lab',
-        updatedAt: '2025-12-26'
+        label: 'Conexão de fibra óptica',
+        value: '100',
+        suffix: '%',
+        description: 'Cobertura de rede banda larga de alta velocidade fornecida pela Coprel Telecom.',
+        source: 'Coprel Telecom',
+        sourceUrl: '#ecossistema',
+        updatedAt: '2026-06-08'
       },
       {
-        label: 'Painéis públicos',
-        value: '3',
-        suffix: 'painéis',
-        description: 'Mapa de Empresas reúne movimentação, tempo de abertura e Inova Simples.',
-        source: 'Mapa de Empresas gov.br',
-        sourceUrl: 'https://www.gov.br/pt-br/servicos/mapa-de-empresa',
-        updatedAt: '2026-03-23'
+        label: 'Pontos de dados ativos',
+        value: '16',
+        suffix: 'sensores',
+        description: 'Câmeras, sensores de iluminação e medidores ambientais operando continuamente no bairro.',
+        source: 'Ijuí City Lab',
+        sourceUrl: '#dados-regionais',
+        updatedAt: '2026-06-08'
       }
     ],
     sectors: [
-      { label: 'Tecnologia', value: 28 },
-      { label: 'Produção', value: 22 },
-      { label: 'Comercial', value: 18 },
-      { label: 'Sustentabilidade', value: 17 },
-      { label: 'Recursos humanos', value: 15 }
+      { label: 'Mobilidade e tráfego', value: 35 },
+      { label: 'Eficiência energética', value: 28 },
+      { label: 'Saúde e bem-estar', value: 20 },
+      { label: 'Segurança urbana', value: 18 },
+      { label: 'Dados e IoT', value: 25 }
     ],
     sources: [
       {
-        label: 'Mapa de Empresas gov.br',
-        url: 'https://www.gov.br/pt-br/servicos/mapa-de-empresa'
+        label: 'API do Ijuí City Lab',
+        url: '#contato'
       },
       {
-        label: 'Observatório Sebrae Startups',
-        url: 'https://observatorio.sebraestartups.com.br/pt-br/oportunidades'
+        label: 'Prefeitura de Ijuí - Dados abertos',
+        url: '#contato'
       },
       {
-        label: 'Inova RS - Noroeste e Missões',
-        url: 'https://inova.rs.gov.br/regiao-noroeste-e-missoes-realiza-rodadas-de-conexoes-do-ciclo-4-do-startup-lab'
+        label: 'UNIJUÍ - Dashboard de Pesquisa',
+        url: '#ecossistema'
       }
     ]
   },
