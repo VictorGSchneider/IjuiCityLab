@@ -1,0 +1,108 @@
+<nav class="docs-nav">
+  <a class="brand" href="/"><strong>ICL</strong> <span>API de Dados Abertos</span></a>
+  <a href="/portal" class="btn-ghost">Gerar chave no portal →</a>
+</nav>
+
+<main class="docs">
+  <header class="docs-hero">
+    <span class="tag">Open Data API · v1</span>
+    <h1>API de Dados do Ijuí City Lab</h1>
+    <p>Acesse de forma programática os dados publicados pelos projetos do sandbox e envie automaticamente os dados das suas soluções. Base aberta para você usar em pesquisas, dashboards e seus próprios projetos.</p>
+  </header>
+
+  <section class="card">
+    <h2>1. Autenticação</h2>
+    <p>Toda requisição exige uma chave de API no cabeçalho <code>X-API-Key</code>. Qualquer participante cadastrado pode gerar chaves gratuitas no <a href="/portal">portal</a> (aba <strong>API &amp; Dados</strong>). Cada chave tem um escopo: <code>read</code> (ler), <code>ingest</code> (enviar) ou <code>read_ingest</code> (ambos).</p>
+    <pre class="code-block">X-API-Key: icl_xxxxxxxxxxxx_xxxxxxxxxxxxxxxxxxxxxxxx</pre>
+    <p class="muted">A chave completa é exibida uma única vez, no momento da criação. Guarde-a com segurança; se vazar, revogue e gere outra.</p>
+  </section>
+
+  <section class="card">
+    <h2>2. Listar projetos publicados</h2>
+    <p><span class="method get">GET</span> <code>/api/v1/projects</code></p>
+    <pre class="code-block">curl https://SEU_DOMINIO/api/v1/projects \
+  -H "X-API-Key: SUA_CHAVE"</pre>
+    <p>Resposta:</p>
+    <pre class="code-block">{
+  "count": 2,
+  "projects": [
+    {
+      "slug": "monitoramento-trafego-ia",
+      "name": "Monitoramento de Tráfego com IA",
+      "area": "mobilidade",
+      "status": "active",
+      "zone": "Av. Central",
+      "data_points": 1284,
+      "metrics": ["veiculos_hora", "velocidade_media"]
+    }
+  ]
+}</pre>
+  </section>
+
+  <section class="card">
+    <h2>3. Ler medições (dados abertos)</h2>
+    <p><span class="method get">GET</span> <code>/api/v1/measurements</code></p>
+    <table class="params">
+      <tr><th>Parâmetro</th><th>Descrição</th></tr>
+      <tr><td><code>project</code></td><td><strong>Obrigatório.</strong> Slug do projeto.</td></tr>
+      <tr><td><code>metric</code></td><td>Filtra por uma métrica específica.</td></tr>
+      <tr><td><code>from</code> / <code>to</code></td><td>Intervalo (ISO 8601) sobre <code>recorded_at</code>.</td></tr>
+      <tr><td><code>limit</code></td><td>Máximo de registros (padrão 1000, máx 10000).</td></tr>
+      <tr><td><code>format</code></td><td><code>json</code> (padrão) ou <code>csv</code>.</td></tr>
+    </table>
+    <pre class="code-block"># JSON
+curl "https://SEU_DOMINIO/api/v1/measurements?project=monitoramento-trafego-ia&metric=veiculos_hora&limit=100" \
+  -H "X-API-Key: SUA_CHAVE"
+
+# CSV (para planilhas / análise)
+curl "https://SEU_DOMINIO/api/v1/measurements?project=monitoramento-trafego-ia&format=csv" \
+  -H "X-API-Key: SUA_CHAVE" -o dados.csv</pre>
+    <pre class="code-block">{
+  "project": "monitoramento-trafego-ia",
+  "count": 2,
+  "measurements": [
+    { "metric": "veiculos_hora", "value": 412, "unit": "veic/h", "recorded_at": "2026-06-15 18:00:00" },
+    { "metric": "veiculos_hora", "value": 388, "unit": "veic/h", "recorded_at": "2026-06-15 17:00:00" }
+  ]
+}</pre>
+  </section>
+
+  <section class="card">
+    <h2>4. Enviar dados (ingestão)</h2>
+    <p><span class="method post">POST</span> <code>/api/v1/ingest</code> — requer chave com escopo <code>ingest</code> ou <code>read_ingest</code>, pertencente ao dono do projeto.</p>
+    <p>Uma medição:</p>
+    <pre class="code-block">curl -X POST https://SEU_DOMINIO/api/v1/ingest \
+  -H "X-API-Key: SUA_CHAVE" \
+  -H "Content-Type: application/json" \
+  -d '{"project":"meu-projeto","metric":"temperatura","value":23.4,"unit":"C"}'</pre>
+    <p>Várias de uma vez (até 1000):</p>
+    <pre class="code-block">curl -X POST https://SEU_DOMINIO/api/v1/ingest \
+  -H "X-API-Key: SUA_CHAVE" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "project": "meu-projeto",
+        "measurements": [
+          { "metric": "pm25", "value": 12.1, "unit": "ug/m3", "recorded_at": "2026-06-15T18:00:00Z" },
+          { "metric": "ruido", "value": 58.3, "unit": "dB" }
+        ]
+      }'</pre>
+    <p class="muted">Os dados enviados aparecem no painel ao vivo da home (se o projeto estiver publicado) e ficam disponíveis na API de leitura para terceiros.</p>
+  </section>
+
+  <section class="card">
+    <h2>5. Códigos de resposta</h2>
+    <table class="params">
+      <tr><th>Código</th><th>Significado</th></tr>
+      <tr><td><code>200 / 201</code></td><td>Sucesso.</td></tr>
+      <tr><td><code>400</code></td><td>Parâmetros inválidos.</td></tr>
+      <tr><td><code>401</code></td><td>Chave ausente, malformada ou revogada.</td></tr>
+      <tr><td><code>403</code></td><td>Escopo insuficiente, ou projeto não pertence à chave.</td></tr>
+      <tr><td><code>404</code></td><td>Projeto não encontrado / não publicado.</td></tr>
+    </table>
+  </section>
+
+  <footer class="docs-foot">
+    <a href="/">← Voltar ao site</a>
+    <span>Ijuí City Lab · Dados abertos sob LGPD · São Geraldo, Ijuí/RS</span>
+  </footer>
+</main>

@@ -1,0 +1,29 @@
+---
+const {
+  title = 'Ijuí City Lab — Laboratório Urbano de Inovação',
+  description = 'Ijuí City Lab — Laboratório urbano de inovação. Sandbox regulatório no bairro São Geraldo para empresas testarem soluções de cidade inteligente.',
+} = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <title>{title}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/visualizer.css" />
+</head>
+<body>
+  <slot />
+  <script src="/site-data.js" is:inline></script>
+  <script src="/script.js" is:inline defer></script>
+  <script src="/visualizer.js" is:inline defer></script>
+</body>
+</html>

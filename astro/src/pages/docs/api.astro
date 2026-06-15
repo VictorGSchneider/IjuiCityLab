@@ -1,0 +1,50 @@
+---
+import docsBody from '../../content/api-docs.html?raw';
+---
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API de Dados Abertos — Ijuí City Lab</title>
+  <meta name="description" content="Documentação da API de dados abertos do Ijuí City Lab: leia os dados publicados pelos projetos do sandbox e envie dados das suas soluções." />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:#05080f; --surface:#0a1020; --surface2:#0f1a30; --line:#1a2d4a;
+      --text:#dde8f0; --muted:#607a90; --white:#fff; --accent:#e8f400; --blue:#3b82f6;
+      --ok:#34d399; --warn:#fbbf24;
+    }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:'Space Grotesk',system-ui,sans-serif; line-height:1.6; }
+    a { color: var(--accent); }
+    code { font-family:'DM Mono',monospace; background:var(--surface2); border:1px solid var(--line); padding:1px 6px; border-radius:6px; font-size:0.85em; color:var(--accent); }
+    .docs-nav { display:flex; align-items:center; justify-content:space-between; padding:16px 24px; border-bottom:1px solid var(--line); position:sticky; top:0; background:var(--bg); z-index:5; }
+    .brand { text-decoration:none; color:inherit; display:flex; align-items:center; gap:8px; }
+    .brand strong { color:var(--accent); font-family:'DM Mono',monospace; }
+    .brand span { color:var(--muted); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.12em; }
+    .btn-ghost { text-decoration:none; border:1px solid var(--line); border-radius:8px; padding:7px 14px; font-size:0.9rem; color:var(--text); }
+    .btn-ghost:hover { border-color:var(--accent); }
+    .docs { max-width:880px; margin:0 auto; padding:40px 24px 80px; }
+    .docs-hero { margin-bottom:32px; }
+    .tag { font-family:'DM Mono',monospace; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); }
+    .docs-hero h1 { font-size:2rem; margin:10px 0; color:var(--white); }
+    .docs-hero p { color:var(--muted); max-width:60ch; }
+    .card { background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:24px 28px; margin:18px 0; }
+    .card h2 { margin-top:0; font-size:1.2rem; color:var(--white); }
+    .muted { color:var(--muted); font-size:0.92rem; }
+    .code-block { background:#020409; border:1px solid var(--line); border-radius:10px; padding:16px 18px; font-family:'DM Mono',monospace; font-size:12.5px; color:var(--text); overflow-x:auto; white-space:pre; line-height:1.55; }
+    .method { font-family:'DM Mono',monospace; font-size:11px; font-weight:600; padding:2px 8px; border-radius:6px; margin-right:6px; }
+    .method.get { background:rgba(52,211,153,.15); color:var(--ok); }
+    .method.post { background:rgba(251,191,36,.15); color:var(--warn); }
+    table.params { width:100%; border-collapse:collapse; margin:12px 0; font-size:0.9rem; }
+    table.params th, table.params td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+    table.params th { color:var(--muted); font-weight:500; }
+    .docs-foot { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-top:32px; padding-top:20px; border-top:1px solid var(--line); color:var(--muted); font-size:0.85rem; }
+    .docs-foot a { text-decoration:none; }
+  </style>
+</head>
+<body>
+  <Fragment set:html={docsBody} />
+</body>
+</html>

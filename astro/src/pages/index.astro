@@ -1,0 +1,9 @@
+---
+import Layout from '../layouts/Layout.astro';
+// Importa o corpo da página como string crua: evita que o parser do Astro
+// interprete as chaves {} do bloco JSON do terminal como expressões.
+import siteBody from '../content/site-body.html?raw';
+---
+<Layout>
+  <Fragment set:html={siteBody} />
+</Layout>

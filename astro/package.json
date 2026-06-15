@@ -1,0 +1,20 @@
+{
+  "name": "ijui-city-lab",
+  "version": "2.0.0",
+  "description": "Ijuí City Lab — site, painel ao vivo, portal do participante, administração e API de dados abertos. Astro SSR + SQLite.",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "start": "node ./dist/server/entry.mjs"
+  },
+  "engines": { "node": ">=18.14" },
+  "dependencies": {
+    "@astrojs/node": "^8.3.4",
+    "astro": "^4.16.0",
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^11.3.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
