@@ -7,13 +7,17 @@
     "dev": "NODE_OPTIONS=--experimental-sqlite astro dev",
     "build": "astro build",
     "preview": "NODE_OPTIONS=--experimental-sqlite astro preview",
-    "start": "node --experimental-sqlite ./dist/server/entry.mjs"
+    "start": "node --experimental-sqlite ./dist/server/entry.mjs",
+    "upgrade": "bash scripts/upgrade.sh"
   },
   "engines": { "node": ">=22.5" },
   "dependencies": {
-    "@astrojs/node": "^8.3.4",
-    "astro": "^4.16.0",
-    "bcryptjs": "^2.4.3",
+    "@astrojs/node": "^10.1.4",
+    "astro": "^6.4.7",
+    "bcryptjs": "^3.0.3",
     "jsonwebtoken": "^9.0.2"
+  },
+  "overrides": {
+    "esbuild": "^0.28.1"
   }
 }

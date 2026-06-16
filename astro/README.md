@@ -39,6 +39,17 @@ JWT_SECRET=... ADMIN_EMAIL=... ADMIN_PASSWORD=... DB_FILE=./data/icl.sqlite \
 O primeiro administrador é criado a partir de `ADMIN_EMAIL` / `ADMIN_PASSWORD`
 na primeira execução (se ainda não existir um usuário com aquele e-mail).
 
+## Atualizar dependências
+
+```bash
+npm run upgrade
+```
+
+Roda `npm-check-updates` (via `npx`, sem dev dep), atualiza tudo no
+`package.json` (inclusive majors), reinstala do zero, audita, builda e mostra o
+`git diff -- package.json` para revisão. Confirme antes de commitar — majors
+podem mudar APIs.
+
 ## Estrutura
 
 ```
