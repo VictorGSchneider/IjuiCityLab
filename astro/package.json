@@ -11,9 +11,12 @@
   },
   "engines": { "node": ">=22.5" },
   "dependencies": {
-    "@astrojs/node": "^8.3.4",
-    "astro": "^4.16.0",
+    "@astrojs/node": "^10.1.4",
+    "astro": "^6.4.7",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2"
+  },
+  "overrides": {
+    "esbuild": "^0.28.1"
   }
 }
