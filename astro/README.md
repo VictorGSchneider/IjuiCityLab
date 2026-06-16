@@ -2,7 +2,13 @@
 
 Aplicação única em **Astro SSR** que serve **tudo**: o site público, o painel
 ao vivo de projetos, o portal do participante, a área de administração e toda a
-API (substitui o antigo backend Express). Persistência em **SQLite**.
+API (substitui o antigo backend Express). Persistência em **SQLite** via o
+módulo built-in `node:sqlite` — **sem dependências nativas**, sem `node-gyp`.
+
+## Requisitos
+
+- **Node.js ≥ 22.5** (em Node 22/23 os scripts passam `--experimental-sqlite`
+  automaticamente; em Node 24+ o módulo é estável e a flag é apenas um no-op).
 
 ## Rodar
 

@@ -27,18 +27,23 @@ export const POST = handler(async ({ request }) => {
     INSERT INTO measurements (project_id, metric, value, unit, recorded_at, source_key_id)
     VALUES (?, ?, ?, ?, COALESCE(?, datetime('now')), ?)
   `);
-  const tx = db.transaction((rows) => {
-    let n = 0;
-    for (const it of rows) {
+  // node:sqlite ainda não expõe a helper db.transaction() do better-sqlite3.
+  // Fazemos BEGIN/COMMIT explícitos para que toda a lote seja atômica.
+  db.exec('BEGIN');
+  let inserted = 0;
+  try {
+    for (const it of items) {
       const metric = str(it.metric, { label: 'metric', max: 80 });
       const value = num(it.value, { label: 'value' });
       const unit = str(it.unit, { required: false, label: 'unit', max: 24 });
       const recordedAt = it.recorded_at ? str(it.recorded_at, { label: 'recorded_at', max: 40 }) : null;
       insert.run(project.id, metric, value, unit, recordedAt, key.id);
-      n++;
+      inserted++;
     }
-    return n;
-  });
-  const inserted = tx(items);
+    db.exec('COMMIT');
+  } catch (e) {
+    db.exec('ROLLBACK');
+    throw e;
+  }
   return json({ ok: true, project: slug, inserted }, 201);
 });
