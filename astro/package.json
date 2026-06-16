@@ -10,7 +10,9 @@
     "start": "node --experimental-sqlite ./dist/server/entry.mjs",
     "upgrade": "bash scripts/upgrade.sh"
   },
-  "engines": { "node": ">=22.5" },
+  "engines": {
+    "node": ">=22.5"
+  },
   "dependencies": {
     "@astrojs/node": "^10.1.4",
     "@astrojs/vercel": "^10.0.8",
@@ -21,5 +23,9 @@
   "overrides": {
     "esbuild": "^0.28.1",
     "path-to-regexp": "^8.2.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true,
+    "sharp@0.34.5": true
   }
 }
