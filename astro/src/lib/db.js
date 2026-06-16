@@ -1,7 +1,7 @@
 import path from 'node:path';
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import Database from 'better-sqlite3';
+import { DatabaseSync } from 'node:sqlite';
 import bcrypt from 'bcryptjs';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -12,9 +12,11 @@ const dbFile = process.env.DB_FILE
 fs.mkdirSync(path.dirname(dbFile), { recursive: true });
 
 // Conexão única reaproveitada entre requisições (módulo singleton).
-const db = new Database(dbFile);
-db.pragma('journal_mode = WAL');
-db.pragma('foreign_keys = ON');
+// Usa o módulo built-in node:sqlite (sem dependência nativa). Em Node 22/23
+// requer a flag --experimental-sqlite; em Node 24+ é estável (ver scripts).
+const db = new DatabaseSync(dbFile);
+db.exec('PRAGMA journal_mode = WAL;');
+db.exec('PRAGMA foreign_keys = ON;');
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS users (

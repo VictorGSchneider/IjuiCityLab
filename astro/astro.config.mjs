@@ -7,8 +7,4 @@ export default defineConfig({
   output: 'server',
   adapter: node({ mode: 'standalone' }),
   server: { port: Number(process.env.PORT) || 3000, host: true },
-  vite: {
-    // better-sqlite3 é um módulo nativo: deve ficar externo ao bundle SSR.
-    ssr: { external: ['better-sqlite3'] },
-  },
 });
