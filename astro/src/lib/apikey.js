@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import db from './db.js';
+import { one, run } from './db.js';
 import { httpError } from './http.js';
 
 // Formato da chave entregue ao usuário: impulsa_<prefix>_<secret>
@@ -30,12 +30,12 @@ function parseKey(raw) {
 
 // Valida a chave recebida no header e confere o escopo exigido.
 // `required` = 'read' | 'ingest'. Atualiza last_used_at.
-export function authenticateKey(request, required) {
+export async function authenticateKey(request, required) {
   const raw = request.headers.get('x-api-key') || '';
   const parsed = parseKey(raw);
   if (!parsed) throw httpError(401, 'Chave de API ausente ou malformada (header X-API-Key)');
 
-  const row = db.prepare('SELECT * FROM api_keys WHERE prefix = ?').get(parsed.prefix);
+  const row = await one('SELECT * FROM api_keys WHERE prefix = ?', [parsed.prefix]);
   if (!row || row.revoked) throw httpError(401, 'Chave de API inválida ou revogada');
 
   const ok = crypto.timingSafeEqual(
@@ -50,6 +50,6 @@ export function authenticateKey(request, required) {
     (required === 'ingest' && row.scope === 'ingest');
   if (!scopeOk) throw httpError(403, `Esta chave não tem permissão de '${required}'`);
 
-  db.prepare(`UPDATE api_keys SET last_used_at = datetime('now') WHERE id = ?`).run(row.id);
+  await run(`UPDATE api_keys SET last_used_at = datetime('now') WHERE id = ?`, [row.id]);
   return row;
 }

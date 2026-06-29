@@ -1,4 +1,4 @@
-import db from '../../lib/db.js';
+import { run } from '../../lib/db.js';
 import { json, handler, readBody } from '../../lib/http.js';
 import { str, email, oneOf } from '../../lib/validate.js';
 import { AREAS } from '../../lib/options.js';
@@ -12,8 +12,9 @@ export const POST = handler(async ({ request }) => {
     area: b.area ? oneOf(b.area, AREAS, 'área') : null,
     message: str(b.message, { required: false, label: 'mensagem', max: 4000 }),
   };
-  const r = db.prepare(
-    `INSERT INTO contacts (name, email, company, area, message) VALUES (?, ?, ?, ?, ?)`
-  ).run(data.name, data.email, data.company, data.area, data.message);
+  const r = await run(
+    `INSERT INTO contacts (name, email, company, area, message) VALUES (?, ?, ?, ?, ?) RETURNING id`,
+    [data.name, data.email, data.company, data.area, data.message]
+  );
   return json({ id: r.lastInsertRowid, ok: true }, 201);
 });

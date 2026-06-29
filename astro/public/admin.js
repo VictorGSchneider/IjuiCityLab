@@ -55,6 +55,9 @@ function showAuthMode(mode) {
     const form = $(selector);
     if (form) form.hidden = name !== mode;
   });
+  $$('.auth-tab').forEach((button) => {
+    button.classList.toggle('active', button.dataset.authMode === mode);
+  });
 }
 
 function switchView(name) {

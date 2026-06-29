@@ -7,7 +7,7 @@ export const POST = handler(async ({ request }) => {
   const token = str(b.token, { label: 'codigo de recuperacao', min: 20, max: 300 });
   const password = str(b.password, { label: 'nova senha', min: 8, max: 128 });
 
-  if (!resetPassword({ token, password })) {
+  if (!await resetPassword({ token, password })) {
     throw httpError(400, 'Codigo invalido ou expirado');
   }
   return json({ ok: true });

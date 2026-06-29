@@ -2,8 +2,7 @@
 
 Aplicação única em **Astro SSR** que serve **tudo**: o site público, o painel
 ao vivo de projetos, o portal do participante, a área de administração e toda a
-API (substitui o antigo backend Express). Persistência em **SQLite** via o
-módulo built-in `node:sqlite` — **sem dependências nativas**, sem `node-gyp`.
+API (substitui o antigo backend Express). Em producao, a persistencia usa **Postgres/Neon** via `DATABASE_URL`; em desenvolvimento local, sem `DATABASE_URL`, o app usa SQLite como fallback.
 
 ## Requisitos
 
@@ -24,7 +23,7 @@ Produção:
 npm run build
 # variáveis de runtime DEVEM ser passadas no ambiente (o build do Astro só lê
 # o .env em tempo de build):
-JWT_SECRET=... ADMIN_EMAIL=... ADMIN_PASSWORD=... DB_FILE=./data/icl.sqlite \
+JWT_SECRET=... ADMIN_EMAIL=... ADMIN_PASSWORD=... DATABASE_URL=postgres://... \
   node ./dist/server/entry.mjs
 ```
 
@@ -61,7 +60,7 @@ src/
     index.astro, portal/, admin/, docs/api.astro
     api/        rotas SSR (substituem o Express)
 public/         styles.css, script.js, site-data.js, visualizer.{css,js}, portal.*, admin.*
-data/           icl.sqlite (criado em runtime; ignorado pelo git)
+data/           icl.sqlite (fallback local; ignorado pelo git)
 ```
 
 ## API
@@ -134,6 +133,7 @@ npx vercel --prod
 Variaveis obrigatorias/recomendadas:
 
 ```bash
+DATABASE_URL=postgres://usuario:senha@host/db?sslmode=require
 JWT_SECRET=uma-string-longa-e-aleatoria
 JWT_EXPIRES_IN=7d
 ADMIN_NAME=Administrador Impulsa Ijui
@@ -142,17 +142,10 @@ ADMIN_PASSWORD=troque-esta-senha
 PASSWORD_RESET_EXPIRES_MINUTES=30
 PASSWORD_RESET_SHOW_LINK=false
 PUBLIC_BASE_URL=https://seu-dominio.vercel.app
-# Necessario se o runtime estiver em Node 22/23, pois node:sqlite ainda e experimental nessas versoes.
-NODE_OPTIONS=--experimental-sqlite
 ```
 
-SQLite na Vercel: sem `DB_FILE`, o app usa `/tmp/impulsa.sqlite` para evitar o
-filesystem somente leitura. Isso serve para demo, mas nao persiste dados entre
-instancias/cold starts. Para receber propostas em producao, migre a persistencia
-para um banco externo como Neon/Postgres, Turso/libSQL ou outro storage gerenciado.
+Banco persistente na Vercel: instale Neon/Postgres pelo Marketplace da Vercel ou crie um banco Postgres externo e configure `DATABASE_URL` em Production e Preview. O esquema (`users`, `proposals`, `projects` etc.) e o admin inicial sao criados automaticamente na primeira requisicao.
 
 ### Node tradicional
 
-Processo Node unico + arquivo SQLite roda em hosts com disco persistente (Render,
-Fly, Railway, VPS). Em producao: `JWT_SECRET` forte, HTTPS no proxy e backup
-periodico de `data/icl.sqlite`.
+Com `DATABASE_URL`, qualquer host Node usa Postgres. Sem `DATABASE_URL`, o app usa SQLite local em `data/icl.sqlite`, recomendado apenas para desenvolvimento ou demo controlada.

@@ -9,5 +9,5 @@ export const POST = handler(async ({ request }) => {
     ? 'participant'
     : oneOf(b.role, ['participant', 'admin'], 'perfil');
 
-  return json(createPasswordReset({ request, email: mail, role }));
+  return json(await createPasswordReset({ request, email: mail, role }));
 });

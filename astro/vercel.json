@@ -1,0 +1,34 @@
+{
+  "redirects": [
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/ijui-city-lab.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/admin/index.html",
+      "destination": "/admin",
+      "permanent": true
+    },
+    {
+      "source": "/admin.html",
+      "destination": "/admin",
+      "permanent": true
+    },
+    {
+      "source": "/portal/index.html",
+      "destination": "/portal",
+      "permanent": true
+    },
+    {
+      "source": "/portal.html",
+      "destination": "/portal",
+      "permanent": true
+    }
+  ]
+}

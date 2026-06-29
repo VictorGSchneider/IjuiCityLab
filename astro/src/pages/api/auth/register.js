@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import db from '../../../lib/db.js';
+import { one, run } from '../../../lib/db.js';
 import { json, handler, readBody } from '../../../lib/http.js';
 import { str, email } from '../../../lib/validate.js';
 import { httpError } from '../../../lib/http.js';
@@ -14,14 +14,16 @@ export const POST = handler(async ({ request }) => {
   const cnpj    = str(b.cnpj,    { required: false, label: 'CNPJ', max: 32 });
   const phone   = str(b.phone,   { required: false, label: 'telefone', max: 40 });
 
-  if (db.prepare('SELECT id FROM users WHERE email = ?').get(mail)) {
+  if (await one('SELECT id FROM users WHERE email = ?', [mail])) {
     throw httpError(409, 'E-mail já cadastrado');
   }
   const hash = bcrypt.hashSync(password, 10);
-  const r = db.prepare(
+  const r = await run(
     `INSERT INTO users (name, email, password_hash, role, company, cnpj, phone)
-     VALUES (?, ?, ?, 'participant', ?, ?, ?)`
-  ).run(name, mail, hash, company, cnpj, phone);
-  const user = db.prepare('SELECT * FROM users WHERE id = ?').get(r.lastInsertRowid);
+     VALUES (?, ?, ?, 'participant', ?, ?, ?)
+     RETURNING *`,
+    [name, mail, hash, company, cnpj, phone]
+  );
+  const user = r.row || await one('SELECT * FROM users WHERE id = ?', [r.lastInsertRowid]);
   return json(buildSession(user), 201);
 });

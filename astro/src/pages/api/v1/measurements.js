@@ -1,16 +1,16 @@
-import db from '../../../lib/db.js';
+import { all, one } from '../../../lib/db.js';
 import { json, handler, httpError } from '../../../lib/http.js';
 import { authenticateKey } from '../../../lib/apikey.js';
 
 // GET /api/v1/measurements?project=slug&metric=&from=&to=&limit=&format=json|csv
 // (header: X-API-Key com escopo de leitura). Apenas projetos publicados.
 export const GET = handler(async ({ request, url }) => {
-  authenticateKey(request, 'read');
+  await authenticateKey(request, 'read');
   const q = url.searchParams;
   const slug = q.get('project');
   if (!slug) throw httpError(400, "Parâmetro 'project' (slug) é obrigatório");
 
-  const project = db.prepare('SELECT id, name FROM projects WHERE slug = ? AND is_published = 1').get(slug);
+  const project = await one('SELECT id, name FROM projects WHERE slug = ? AND is_published = 1', [slug]);
   if (!project) throw httpError(404, `Projeto publicado '${slug}' não encontrado`);
 
   const where = ['project_id = @project_id'];
@@ -22,10 +22,10 @@ export const GET = handler(async ({ request, url }) => {
   let limit = Number(q.get('limit')) || 1000;
   limit = Math.min(Math.max(limit, 1), 10000);
 
-  const rows = db.prepare(`
+  const rows = await all(`
     SELECT metric, value, unit, recorded_at FROM measurements
     WHERE ${where.join(' AND ')} ORDER BY recorded_at DESC LIMIT ${limit}
-  `).all(args);
+  `, args);
 
   if (q.get('format') === 'csv') {
     const header = 'metric,value,unit,recorded_at';

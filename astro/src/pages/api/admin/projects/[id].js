@@ -1,4 +1,4 @@
-import db from '../../../../lib/db.js';
+import { one, run } from '../../../../lib/db.js';
 import { json, handler, readBody, httpError } from '../../../../lib/http.js';
 import { requireUser } from '../../../../lib/auth.js';
 import { str, oneOf, num } from '../../../../lib/validate.js';
@@ -6,17 +6,17 @@ import { AREAS, PROJECT_STATUS } from '../../../../lib/options.js';
 
 export const GET = handler(async ({ request, params }) => {
   requireUser(request, 'admin');
-  const row = db.prepare(`
+  const row = await one(`
     SELECT p.*, u.name AS owner_name, u.email AS owner_email
     FROM projects p LEFT JOIN users u ON u.id = p.owner_user_id WHERE p.id = ?
-  `).get(params.id);
+  `, [params.id]);
   if (!row) return json({ error: 'Projeto não encontrado' }, 404);
   return json(row);
 });
 
 export const PATCH = handler(async ({ request, params }) => {
   requireUser(request, 'admin');
-  const row = db.prepare('SELECT id FROM projects WHERE id = ?').get(params.id);
+  const row = await one('SELECT id FROM projects WHERE id = ?', [params.id]);
   if (!row) return json({ error: 'Projeto não encontrado' }, 404);
   const b = await readBody(request);
   const updates = {};
@@ -33,19 +33,19 @@ export const PATCH = handler(async ({ request, params }) => {
       updates.owner_user_id = null;
     } else {
       const id = num(b.owner_user_id, { label: 'dono' });
-      const owner = db.prepare(`SELECT id FROM users WHERE id = ? AND role = 'participant'`).get(id);
+      const owner = await one(`SELECT id FROM users WHERE id = ? AND role = 'participant'`, [id]);
       if (!owner) throw httpError(400, 'Dono inválido (precisa ser um participante)');
       updates.owner_user_id = id;
     }
   }
   if (!Object.keys(updates).length) return json({ ok: true });
   const sets = Object.keys(updates).map((k) => `${k} = @${k}`).join(', ');
-  db.prepare(`UPDATE projects SET ${sets}, updated_at = datetime('now') WHERE id = @id`).run({ ...updates, id: row.id });
+  await run(`UPDATE projects SET ${sets}, updated_at = datetime('now') WHERE id = @id`, { ...updates, id: row.id });
   return json({ ok: true });
 });
 
 export const DELETE = handler(async ({ request, params }) => {
   requireUser(request, 'admin');
-  db.prepare('DELETE FROM projects WHERE id = ?').run(params.id);
+  await run('DELETE FROM projects WHERE id = ?', [params.id]);
   return json({ ok: true });
 });
