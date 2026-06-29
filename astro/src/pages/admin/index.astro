@@ -4,13 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Impulsa Ijuí — Administração</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <meta name="description" content="Painel administrativo do Impulsa Ijuí para gerenciar propostas, contatos, projetos e participantes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/admin.css" />
 </head>
 <body>
+<div class="portal-bg" aria-hidden="true"></div>
 
 <header class="topbar" hidden>
-  <div class="brand"><strong>II</strong> <span>Administração</span></div>
+  <a class="brand" href="/" aria-label="Impulsa Ijuí">
+    <span class="logo-mark">II</span>
+    <span class="logo-text">
+      <span class="logo-name">IMPULSA</span>
+      <span class="logo-sub">IJUÍ</span>
+    </span>
+    <span class="brand-section">Admin</span>
+  </a>
   <nav class="tabs">
     <button class="tab active" data-view="dashboard">Painel</button>
     <button class="tab" data-view="projects">Projetos</button>
@@ -25,48 +36,80 @@
   </div>
 </header>
 
-<main class="login-wrap">
-  <form class="card auth-card" id="loginForm">
-    <h1>Administração</h1>
-    <p class="muted">Acesso restrito à equipe do Impulsa Ijuí.</p>
-    <label>E-mail<input type="email" name="email" required autocomplete="username" /></label>
-    <label>Senha<input type="password" name="password" required autocomplete="current-password" /></label>
-    <div class="auth-actions">
-      <button type="button" class="auth-link" data-auth-mode="forgot">Esqueci minha senha</button>
+<main class="login-wrap auth-wrap">
+  <section class="auth-hero" aria-label="Administração Impulsa Ijuí">
+    <a class="brand auth-brand" href="/" aria-label="Impulsa Ijuí">
+      <span class="logo-mark">II</span>
+      <span class="logo-text">
+        <span class="logo-name">IMPULSA</span>
+        <span class="logo-sub">IJUÍ</span>
+      </span>
+    </a>
+    <div class="sec-tag">Administração</div>
+    <h1>Gestão do sandbox</h1>
+    <p>Receba propostas, acompanhe participantes e publique projetos para o painel vivo do Impulsa Ijuí.</p>
+    <div class="auth-metrics" aria-label="Fluxo administrativo">
+      <div><strong>01</strong><span>Receber</span></div>
+      <div><strong>02</strong><span>Avaliar</span></div>
+      <div><strong>03</strong><span>Publicar</span></div>
     </div>
-    <button type="submit" class="btn primary">Entrar</button>
-    <p class="feedback" role="status" aria-live="polite"></p>
-  </form>
+  </section>
 
-  <form class="card auth-card" id="forgotForm" hidden>
-    <h1>Recuperar senha</h1>
-    <p class="muted">Informe o e-mail administrativo para gerar um link de redefinicao.</p>
-    <label>E-mail<input type="email" name="email" required autocomplete="email" /></label>
-    <button type="submit" class="btn primary">Gerar link</button>
-    <button type="button" class="auth-link" data-auth-mode="login">Voltar ao login</button>
-    <p class="feedback" role="status" aria-live="polite"></p>
-    <div class="reset-box" id="forgotResult" hidden>
-      <strong>Link de redefinicao</strong>
-      <p>Enquanto nao ha envio de e-mail configurado, use este link local para continuar.</p>
-      <a id="forgotResetUrl" href="#"></a>
+  <section class="auth-panel">
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-auth-mode="login">Entrar</button>
+      <button class="auth-tab" data-auth-mode="forgot">Esqueci minha senha</button>
     </div>
-  </form>
 
-  <form class="card auth-card" id="resetForm" hidden>
-    <h1>Nova senha</h1>
-    <p class="muted">Cole o codigo recebido ou use o link gerado para preencher automaticamente.</p>
-    <label>Codigo de recuperacao<input type="text" name="token" required autocomplete="one-time-code" /></label>
-    <label>Nova senha<input type="password" name="password" minlength="8" required autocomplete="new-password" /></label>
-    <button type="submit" class="btn primary">Atualizar senha</button>
-    <button type="button" class="auth-link" data-auth-mode="login">Voltar ao login</button>
-    <p class="feedback" role="status" aria-live="polite"></p>
-  </form>
+    <form class="card auth-card" id="loginForm">
+      <h1>Administração</h1>
+      <p class="muted">Acesso restrito à equipe do Impulsa Ijuí.</p>
+      <label>E-mail<input type="email" name="email" required autocomplete="username" /></label>
+      <label>Senha<input type="password" name="password" required autocomplete="current-password" /></label>
+      <button type="submit" class="btn primary">Entrar</button>
+      <p class="feedback" role="status" aria-live="polite"></p>
+    </form>
+
+    <form class="card auth-card" id="forgotForm" hidden>
+      <h1>Recuperar senha</h1>
+      <p class="muted">Informe o e-mail administrativo para gerar um link de redefinição.</p>
+      <label>E-mail<input type="email" name="email" required autocomplete="email" /></label>
+      <button type="submit" class="btn primary">Gerar link</button>
+      <button type="button" class="auth-link" data-auth-mode="login">Voltar ao login</button>
+      <p class="feedback" role="status" aria-live="polite"></p>
+      <div class="reset-box" id="forgotResult" hidden>
+        <strong>Link de redefinição</strong>
+        <p>Enquanto não há envio de e-mail configurado, use este link local para continuar.</p>
+        <a id="forgotResetUrl" href="#"></a>
+      </div>
+    </form>
+
+    <form class="card auth-card" id="resetForm" hidden>
+      <h1>Nova senha</h1>
+      <p class="muted">Cole o código recebido ou use o link gerado para preencher automaticamente.</p>
+      <label>Código de recuperação<input type="text" name="token" required autocomplete="one-time-code" /></label>
+      <label>Nova senha<input type="password" name="password" minlength="8" required autocomplete="new-password" /></label>
+      <button type="submit" class="btn primary">Atualizar senha</button>
+      <button type="button" class="auth-link" data-auth-mode="login">Voltar ao login</button>
+      <p class="feedback" role="status" aria-live="polite"></p>
+    </form>
+  </section>
 </main>
 
 <main class="app-wrap" hidden>
+  <div class="app-hero">
+    <div>
+      <div class="sec-tag">Painel administrativo</div>
+      <h1>Operar propostas e projetos</h1>
+      <p>Controle o fluxo de submissões, contatos, participantes e publicação de iniciativas do sandbox.</p>
+    </div>
+    <a href="/" class="btn">Site público</a>
+  </div>
 
   <section class="view" data-view="dashboard">
-    <h2>Visão geral</h2>
+    <div class="view-head">
+      <h2>Visão geral</h2>
+    </div>
     <div class="kpis" id="kpis"></div>
     <h3>Propostas recentes</h3>
     <div class="table-wrap"><table id="recentProposals"><thead><tr>
@@ -101,8 +144,8 @@
       </div>
       <div class="row">
         <input type="text" name="zone" placeholder="Zona / referência (ex.: Av. Central)" />
-        <input type="number" name="map_x" placeholder="Mapa X (0–100)" min="0" max="100" step="1" />
-        <input type="number" name="map_y" placeholder="Mapa Y (0–100)" min="0" max="100" step="1" />
+        <input type="number" name="map_x" placeholder="Mapa X (0-100)" min="0" max="100" step="1" />
+        <input type="number" name="map_y" placeholder="Mapa Y (0-100)" min="0" max="100" step="1" />
         <select name="owner_user_id" id="projectOwner"><option value="">Sem dono</option></select>
       </div>
       <textarea name="description" placeholder="Descrição curta do projeto"></textarea>
@@ -149,17 +192,21 @@
   </section>
 
   <section class="view" data-view="participants" hidden>
-    <h2>Participantes cadastrados</h2>
+    <div class="view-head">
+      <h2>Participantes cadastrados</h2>
+    </div>
     <div class="table-wrap"><table id="participantsTable"><thead><tr>
       <th>#</th><th>Nome</th><th>E-mail</th><th>Empresa</th><th>Propostas</th><th>Projetos</th><th>Cadastro</th><th></th>
     </tr></thead><tbody></tbody></table></div>
   </section>
 
   <section class="view" data-view="admins" hidden>
-    <h2>Equipe administrativa</h2>
+    <div class="view-head">
+      <h2>Equipe administrativa</h2>
+    </div>
     <form id="newAdminForm" class="card inline-form">
       <h3>Adicionar administrador</h3>
-      <div class="row">
+      <div class="row row-admin">
         <input type="text" name="name" placeholder="Nome" required />
         <input type="email" name="email" placeholder="E-mail" required />
         <input type="password" name="password" placeholder="Senha (8+ caracteres)" minlength="8" required />
